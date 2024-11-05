@@ -1,4 +1,4 @@
-export default function Home() {
+export default function Podcast() {
   return (
     <div>
       <h1>Podcast</h1>

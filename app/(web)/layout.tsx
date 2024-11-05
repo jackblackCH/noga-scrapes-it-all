@@ -1,7 +1,7 @@
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
-
+import Link from "next/link";
 function Header() {
   return (
     <header className="border-b">
@@ -55,9 +55,11 @@ function Header() {
             <ExternalLink className="h-4 w-4" />
           </a>
         </nav>
-        <Button className="ml-auto bg-emerald-700 hover:bg-emerald-800">
-          Post a job
-        </Button>
+        <Link href="/post-a-job" className="ml-auto">
+          <Button className="bg-emerald-700 hover:bg-emerald-800">
+            Post a job
+          </Button>
+        </Link>
       </div>
     </header>
   );
