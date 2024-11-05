@@ -135,7 +135,7 @@ export function JobBoard() {
             <div className="absolute inset-0 bg-black/20" />
           </div>
           <div className="container mx-auto relative px-4 py-16 text-center">
-            <h1 className="text-4xl font-bold sm:text-2xl md:text-4xl text-white">
+            <h1 className="text-4xl font-bold md:text-4xl text-white">
               Do something that matters.
             </h1>
             <p className="mt-4 text-lg text-white/90">
