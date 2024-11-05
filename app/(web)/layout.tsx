@@ -1,5 +1,6 @@
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 
 function Header() {
   return (
@@ -11,7 +12,7 @@ function Header() {
         <nav className="flex flex-1 items-center justify-center gap-4 text-sm">
           <a
             className="text-foreground/60 transition-colors hover:text-foreground"
-            href="#"
+            href="/europe"
           >
             NOW IN EUROPE
           </a>
@@ -46,11 +47,12 @@ function Header() {
             About
           </a>
           <a
-            className="text-foreground/60 transition-colors hover:text-foreground"
+            className="text-foreground/60 transition-colors hover:text-foreground inline-flex items-center gap-1"
             href="https://www.altproteinpartners.com/"
             target="_blank"
           >
             For Employers
+            <ExternalLink className="h-4 w-4" />
           </a>
         </nav>
         <Button className="ml-auto bg-emerald-700 hover:bg-emerald-800">
