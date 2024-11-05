@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <header className="border-b">
-      <div className="mx-auto flex h-16 items-center px-4 lg:container">
+      <div className="mx-auto flex h-16 items-center px-4 xl:container">
         <Link href="/" className="mr-4">
           <Logo />
         </Link>
