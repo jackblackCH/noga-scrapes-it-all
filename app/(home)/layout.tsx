@@ -8,7 +8,7 @@ export default function WebLayout({
   return (
     <>
       <Header />
-      <main className="container mx-auto p-4">{children}</main>
+      <main className="">{children}</main>
     </>
   );
 }

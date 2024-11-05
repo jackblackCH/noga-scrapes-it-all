@@ -29,7 +29,7 @@ const jobsData = [
     title: "Senior Process Engineer (Fermentation)",
     company: "Adams Foods",
     location: "United Kingdom",
-    logo: "https://placehold.co/400",
+    logo: "https://placehold.co/48",
     postedAgo: "1w ago",
     tags: ["Bioprocess", "Food Science", "Manufacturing", "Europe"],
   },
@@ -38,7 +38,7 @@ const jobsData = [
     title: "Research Scientist - Plant-Based Proteins",
     company: "GreenEats Inc.",
     location: "Netherlands",
-    logo: "https://placehold.co/400",
+    logo: "https://placehold.co/48",
     postedAgo: "3d ago",
     tags: ["R&D", "Food Science", "Protein Chemistry", "Europe"],
   },
@@ -47,7 +47,7 @@ const jobsData = [
     title: "Marketing Manager - Alternative Meats",
     company: "Future Foods Co.",
     location: "Germany",
-    logo: "https://placehold.co/400",
+    logo: "https://placehold.co/48",
     postedAgo: "5d ago",
     tags: ["Marketing", "Brand Management", "Food Industry", "Europe"],
   },
@@ -56,7 +56,7 @@ const jobsData = [
     title: "Quality Assurance Specialist",
     company: "PurePro Labs",
     location: "France",
-    logo: "https://placehold.co/400",
+    logo: "https://placehold.co/48",
     postedAgo: "2w ago",
     tags: ["Quality Control", "Food Safety", "Regulatory Compliance", "Europe"],
   },
@@ -65,7 +65,7 @@ const jobsData = [
     title: "Supply Chain Analyst - Sustainable Sourcing",
     company: "EcoNutrition",
     location: "Spain",
-    logo: "https://placehold.co/400",
+    logo: "https://placehold.co/48",
     postedAgo: "4d ago",
     tags: ["Supply Chain", "Sustainability", "Data Analysis", "Europe"],
   },
@@ -73,7 +73,7 @@ const jobsData = [
 
 function JobList() {
   return (
-    <section className="container mx-auto px-4 py-8">
+    <section className="container mx-auto px-4">
       <h2 className="text-2xl font-bold">Latest Jobs</h2>
       <div className="mt-6 space-y-4">
         {jobsData.map((job) => (
@@ -130,7 +130,7 @@ export function JobBoard() {
               src="/bg.png"
               priority
               width={1200}
-              height={400}
+              height={48}
             />
             <div className="absolute inset-0 bg-black/20" />
           </div>
