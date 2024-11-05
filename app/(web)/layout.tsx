@@ -1,4 +1,3 @@
-import { JobBoard } from "@/components/job-board";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 
@@ -6,7 +5,7 @@ function Header() {
   return (
     <header className="border-b">
       <div className="container mx-auto flex h-16 items-center px-4">
-        <a className="mr-6" href="#">
+        <a className="mr-6" href="/">
           <Logo />
         </a>
         <nav className="flex flex-1 items-center justify-center gap-4 text-sm">
@@ -18,37 +17,38 @@ function Header() {
           </a>
           <a
             className="text-foreground/60 transition-colors hover:text-foreground"
-            href="#"
+            href="/jobs"
           >
             Search Jobs
           </a>
           <a
             className="text-foreground/60 transition-colors hover:text-foreground"
-            href="#"
+            href="/blog"
           >
             Resources
           </a>
           <a
             className="text-foreground/60 transition-colors hover:text-foreground"
-            href="#"
+            href="/podcast"
           >
             Podcast
           </a>
           <a
             className="text-foreground/60 transition-colors hover:text-foreground"
-            href="#"
+            href="/interview-prep"
           >
             Interview Prep
           </a>
           <a
             className="text-foreground/60 transition-colors hover:text-foreground"
-            href="#"
+            href="/about"
           >
             About
           </a>
           <a
             className="text-foreground/60 transition-colors hover:text-foreground"
-            href="#"
+            href="https://www.altproteinpartners.com/"
+            target="_blank"
           >
             For Employers
           </a>
@@ -61,11 +61,17 @@ function Header() {
   );
 }
 
-export default function Home() {
+export default function WebLayout({
+  children, // will be a page or nested layout
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div>
+    <section>
+      {/* Include shared UI here e.g. a header or sidebar */}
       <Header />
-      <JobBoard />
-    </div>
+
+      <div className="container mx-auto p-4">{children}</div>
+    </section>
   );
 }

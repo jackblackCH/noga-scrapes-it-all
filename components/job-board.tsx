@@ -79,13 +79,17 @@ function JobList() {
         {jobsData.map((job) => (
           <Card key={job.id} className="p-4">
             <div className="flex items-start gap-4">
-              <Image
-                alt={`${job.company} logo`}
-                className="h-12 w-12 rounded-full"
-                src={job.logo}
-                width={48}
-                height={48}
-              />
+              {job.logo && (
+                <Image
+                  loading="lazy"
+                  alt={`${job.company} logo`}
+                  className="h-12 w-12 rounded-full object-cover"
+                  src={job.logo}
+                  width={48}
+                  height={48}
+                  unoptimized
+                />
+              )}
               <div className="flex-1">
                 <div className="flex items-start justify-between">
                   <div>
@@ -124,6 +128,7 @@ export function JobBoard() {
               alt="Forest aerial view"
               className="h-full w-full object-cover"
               src="/bg.png"
+              priority
               width={1200}
               height={400}
             />
