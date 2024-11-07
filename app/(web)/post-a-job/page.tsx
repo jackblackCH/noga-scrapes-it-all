@@ -1,7 +1,10 @@
+import { PostJobFormComponent } from '@/components/post-job-form';
+
 export default function PostAJob() {
   return (
-    <div>
-      <h1>Post a Job</h1>
-    </div>
+    <>
+      <h1 className="text-2xl font-bold mb-4">Post a Job</h1>
+      <PostJobFormComponent />
+    </>
   );
 }

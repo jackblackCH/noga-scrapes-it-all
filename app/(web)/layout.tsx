@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import Header from '@/components/header';
 
 export default function WebLayout({
   children, // will be a page or nested layout
@@ -8,7 +8,9 @@ export default function WebLayout({
   return (
     <>
       <Header />
-      <main className="xl:container mx-auto p-4">{children}</main>
+      <main className="bg-[#fffdf7] min-h-screen">
+        <div className="p-4 mx-auto xl:container">{children}</div>
+      </main>
     </>
   );
 }

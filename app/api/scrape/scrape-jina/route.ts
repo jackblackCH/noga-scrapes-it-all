@@ -19,8 +19,6 @@ export async function GET(request: Request) {
       .replace(/\+/g, '%20');
     const jinaUrl = `https://r.jina.ai/${encodedUrl}`;
 
-    console.log(jinaUrl);
-
     const response = await fetch(jinaUrl, {
       method: 'GET',
       headers: {
