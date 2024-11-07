@@ -161,9 +161,9 @@ export default function About() {
             Daniel is a true future of food enthusiast! He was the Founder and President of the
             Berkeley Chapter of the Plant Futures Initiative, an alumnus of the Alt:Meat Lab,
             voyaged on a self-guided tour of cultivated and plant-based meat companies in Israel,
-            and collaborated on the launch of Beyond Meat's pilot campus ambassador program at UC
-            Berkeley. Daniel holds a BS in Environmental Economics and Policy and a certificate in
-            Entrepreneurship & Technology, from the University of California, Berkeley.
+            and collaborated on the launch of Beyond Meat&apos;s pilot campus ambassador program at
+            UC Berkeley. Daniel holds a BS in Environmental Economics and Policy and a certificate
+            in Entrepreneurship & Technology, from the University of California, Berkeley.
           </p>
         </div>
 

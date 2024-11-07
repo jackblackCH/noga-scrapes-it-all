@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { ArrowRight, Clock } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-
+import Image from 'next/image';
 type BlogPost = {
   id: number;
   title: string;
@@ -109,8 +109,10 @@ function BlogCard({ post }: { post: BlogPost }) {
   return (
     <Card className="flex flex-col overflow-hidden group bg-white shadow-md">
       <div className="relative aspect-[4/3] overflow-hidden">
-        <img
+        <Image
           src={post.image}
+          width={250}
+          height={250}
           alt={`Cover image for ${post.title}`}
           className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
         />
