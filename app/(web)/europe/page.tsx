@@ -4,7 +4,6 @@ import Link from 'next/link';
 export default function Europe() {
   return (
     <div className="space-y-4 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Now in Europe</h1>
       <div className="text-center">
         <Image
           className="inline-block mb-4 rounded-lg"
