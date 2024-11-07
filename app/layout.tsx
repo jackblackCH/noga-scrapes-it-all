@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Noga scrapes it all - Altprotein Careers",
+  title: "Altprotein Careers",
   description: "Altprotein Careers",
 };
 
