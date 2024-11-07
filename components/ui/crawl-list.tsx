@@ -123,14 +123,16 @@ export default function CrawlList({
     <div>
       <div className="flex items-center gap-2 mb-4">
         <h2 className="text-lg font-medium">Job Listings</h2>
-        <span className="text-sm text-muted-foreground">
-          (
-          {Object.values(crawlStates).reduce(
-            (total, state) => total + (state.jobs?.length || 0),
-            0
-          )}{' '}
-          jobs found)
-        </span>
+        {Object.values(crawlStates).some((state) => state.jobs) && (
+          <span className="text-sm text-muted-foreground">
+            (
+            {Object.values(crawlStates).reduce(
+              (total, state) => total + (state.jobs?.length || 0),
+              0
+            )}{' '}
+            jobs found)
+          </span>
+        )}
       </div>
       <ul className="grid gap-4">
         {jobListings.map((listing, index) => (

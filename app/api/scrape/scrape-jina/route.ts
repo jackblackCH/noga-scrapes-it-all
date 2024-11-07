@@ -19,12 +19,13 @@ export async function GET(request: Request) {
       .replace(/\+/g, '%20');
     const jinaUrl = `https://r.jina.ai/${encodedUrl}`;
 
+    console.log(jinaUrl);
+
     const response = await fetch(jinaUrl, {
       method: 'GET',
       headers: {
         Authorization: `Bearer jina_c3d7737e925143e2908b8af33553178a3kA7-4j9ux9p7-fBxkZDRkbMbsme`,
         'X-Return-Format': 'markdown',
-        'X-Wait-For-Selector': 'body, .class, #id',
         'X-With-Iframe': 'true',
       },
     });
