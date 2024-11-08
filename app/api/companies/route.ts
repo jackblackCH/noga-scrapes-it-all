@@ -1,113 +1,111 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { parse } from 'csv-parse/sync';
-import { Company } from '@/app/types/company';
 
-interface CompanySort {
-  priority: number;
-  date: number;
-  name: string;
-}
+import Airtable, { FieldSet, Record } from 'airtable';
 
-function createSortValues(company: Company | null): CompanySort {
-  if (!company) {
-    return {
-      priority: Number.MAX_SAFE_INTEGER,
-      date: 0,
-      name: '',
-    };
-  }
-
-  return {
-    priority: parsePriority(company.Priority),
-    date: parseDate(company.Checked),
-    name: company.Company || '',
-  };
-}
-
-function parsePriority(priority: string | null | undefined): number {
-  if (!priority) return Number.MAX_SAFE_INTEGER;
-  const parsed = parseInt(priority);
-  return Number.isInteger(parsed) ? parsed : Number.MAX_SAFE_INTEGER;
-}
-
-function parseDate(date: string | null | undefined): number {
-  if (!date) return 0;
-  const parsed = new Date(date).getTime();
-  return Number.isNaN(parsed) ? 0 : parsed;
-}
-
-function compareCompanies(a: Company | null, b: Company | null): number {
-  if (!a) return 1;
-  if (!b) return -1;
-
-  const sortA = createSortValues(a);
-  const sortB = createSortValues(b);
-
-  if (sortA.priority !== sortB.priority) {
-    return sortA.priority - sortB.priority;
-  }
-
-  if (sortA.date !== sortB.date) {
-    return sortB.date - sortA.date;
-  }
-
-  return sortA.name.localeCompare(sortB.name);
-}
-
-async function readCompaniesFromCSV(filePath: string): Promise<Company[]> {
-  const fileContents = await fs.readFile(filePath, 'utf-8');
-  return parse(fileContents, {
-    columns: true,
-    skip_empty_lines: true,
-    trim: true,
-    relax_quotes: true,
-  }) as Company[];
+interface AirtableFields extends FieldSet {
+  Company?: string;
+  Slug?: string;
+  Employer?: string;
+  Priority?: number;
+  Checked?: string;
+  JBoard?: string;
+  JobListing1?: string;
+  JobListing2?: string;
+  Status?: string;
+  Issue?: string;
+  Notes?: string;
+  URL?: string;
 }
 
 export interface TransformedCompany {
   name: string;
-  email: string;
+  slug: string;
+  priority: number;
   date: string;
-  subject: string;
-  teaser: string;
-  raw: Company;
+  employer: string;
+  jboard: string;
+  jobListing1: string;
+  jobListing2: string;
+  status: string;
+  issue: string;
+  notes: string;
+  url: string;
 }
 
-function transformCompany(company: Company): TransformedCompany {
+// function createSlug(name: string): string {
+//   return name
+//     .toLowerCase()
+//     .replace(/[^a-z0-9]+/g, '-')
+//     .replace(/^-+|-+$/g, ''); // Removed .replace(/\.$/, '') since replace(/^-+|-+$/g, '') already handles dashes at start/end
+// }
+
+function transformCompany(company: AirtableFields): TransformedCompany {
+  const name = company.Company?.trim() || '';
   return {
-    name: company.Company?.trim() || 'Unknown Company',
-    email: company.Company?.toLowerCase().replace(/[.,\s]+/g, '-') || '',
-    date: company.Checked || new Date().toLocaleDateString(),
-    subject: company.Priority ? `Priority ${company.Priority}` : 'Standard',
-    teaser:
-      [company.Notes, company.URL, company.Status].filter(Boolean).join(' - ') ||
-      'No additional information available',
-    raw: company,
+    name,
+    priority: company.Priority || 0,
+    slug: company.Slug || '',
+    date: company.Checked || 'NEW',
+    employer: company.Employer || '',
+    jboard: company.JBoard || '',
+    jobListing1: company.JobListing1 || '',
+    jobListing2: company.JobListing2 || '',
+    status: company.Status || '',
+    issue: company.Issue || '',
+    notes: company.Notes || '',
+    url: company.URL || '',
   };
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '100');
-    const format = searchParams.get('format');
-
-    const csvPath = path.join(process.cwd(), 'app/data/Altprotein - jobs.csv');
-
-    const companies = await readCompaniesFromCSV(csvPath);
-    const sortedCompanies = companies.sort(compareCompanies);
-    const limitedCompanies = sortedCompanies.slice(0, limit);
-
-    if (format === 'transformed') {
-      const transformedCompanies = limitedCompanies
-        .filter((company) => company.Company?.trim())
-        .map(transformCompany);
-      return NextResponse.json(transformedCompanies);
+    const apiKey = process.env.AIRTABLE_API_KEY;
+    if (!apiKey) {
+      throw new Error('Airtable API key not configured');
     }
 
-    return NextResponse.json(limitedCompanies);
+    const airtable = new Airtable({
+      apiKey: apiKey,
+    });
+
+    const base = airtable.base('appQ3lzHc7ziRcWeq');
+    const airtableResponse = await base('jobs')
+      .select({
+        sort: [
+          { field: 'Company', direction: 'asc' }, // Secondary sort by company name
+        ],
+      })
+      .all();
+
+    const companies = airtableResponse
+      .map((record: Record<AirtableFields>) => ({
+        Company: record.fields.Company,
+        Slug: record.fields.Slug,
+        Employer: record.fields.Employer,
+        Priority: record.fields.Priority,
+        Checked: record.fields.Checked,
+        JBoard: record.fields.JBoard,
+        JobListing1: record.fields.JobListing1,
+        JobListing2: record.fields.JobListing2,
+        Status: record.fields.Status,
+        Issue: record.fields.Issue,
+        Notes: record.fields.Notes,
+        URL: record.fields.URL,
+      }))
+      .map(transformCompany)
+      .sort((a, b) => {
+        // Handle empty values
+        if (!a.priority && !b.priority) return 0;
+        if (!a.priority) return 1; // Move empty values to end
+        if (!b.priority) return -1; // Move empty values to end
+
+        // Sort numerically with 0 first
+        if (a.priority === 0) return -1;
+        if (b.priority === 0) return 1;
+        return a.priority - b.priority;
+      });
+
+    return NextResponse.json(companies);
   } catch (error) {
     console.error('Error loading companies:', error);
     return NextResponse.json({ error: 'Failed to load companies' }, { status: 500 });

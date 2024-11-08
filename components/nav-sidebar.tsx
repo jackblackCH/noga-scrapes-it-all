@@ -21,8 +21,8 @@ import Link from 'next/link';
 
 // Define the Company type to match the structure we need
 interface Company {
-  email: string;
   name: string;
+  slug: string;
   date: string;
   subject: string;
   teaser: string;
@@ -173,10 +173,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               ) : (
                 filteredCompanies?.map((company, index) => (
                   <Link
-                    href={`/dashboard/companies/${company.name
-                      .toLowerCase()
-                      .replace(/[.,\s]+/g, '-')}`}
-                    key={company.name + index}
+                    href={`/dashboard/companies/${company.slug}`}
+                    key={company.slug + index}
                     className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   >
                     <div className="flex w-full items-center gap-2">

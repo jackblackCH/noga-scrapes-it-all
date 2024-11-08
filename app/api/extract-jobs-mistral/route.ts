@@ -55,7 +55,7 @@ class JobExtractor {
     try {
       const systemPrompt = `
         You are a job posting extraction expert. Find all job postings in the provided HTML or text.
-        Return data in valid JSON format with an array of jobs.
+        Return data in valid JSON format with an array of jobs. Fix unterminated strings.
         Each job must have these fields (use null if not found):
         - title: job title
         - company: company name
@@ -81,7 +81,7 @@ class JobExtractor {
           },
         ],
         temperature: 0.1,
-        maxTokens: 2000,
+        maxTokens: 4000,
         responseFormat: { type: 'json_object' },
       });
 

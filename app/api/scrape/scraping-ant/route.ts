@@ -40,9 +40,6 @@ export async function GET(request: Request) {
     });
 
     const data = await response.text();
-    // const credits = response.headers.get("Ant-credits-cost");
-
-    console.log(data);
 
     return NextResponse.json(data);
   } catch {

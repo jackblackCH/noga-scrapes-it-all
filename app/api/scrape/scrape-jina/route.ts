@@ -29,12 +29,23 @@ export async function GET(request: Request) {
     });
     const sourceCode = await response.text();
 
-    if (sourceCode.includes('Checking the site connection security')) {
+    console.log('------------SOURCE CODE JINA AI MARKDOWN---------------');
+    console.log(sourceCode);
+    console.log('--------------------------------------');
+
+    if (
+      sourceCode.includes('Checking the site connection security') ||
+      sourceCode.includes('Cloudflare')
+    ) {
       return NextResponse.json({ error: 'Cloudflare Bot Protection' }, { status: 503 });
     }
 
     if (sourceCode.includes('404 error') || response.status === 404) {
       return NextResponse.json({ error: 'Page not found or empty' }, { status: 404 });
+    }
+
+    if (sourceCode.includes('HTTP ERROR 429') || response.status === 429) {
+      return NextResponse.json({ error: 'Rate Limiter Linkedin' }, { status: 429 });
     }
 
     if (!response.ok) {

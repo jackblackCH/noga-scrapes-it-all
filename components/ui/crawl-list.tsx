@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { Button } from './button';
 import { Job } from '@/app/types/job';
 import { parseJobsFromUrlWithMistral } from '@/components/test-runner';
+import { useToast } from '@/hooks/use-toast';
 
 interface CrawlState {
   isLoading: boolean;
@@ -15,12 +16,15 @@ interface CrawlState {
 export default function CrawlList({
   jobListings,
   company,
+  companySlug,
 }: {
   jobListings: string[];
   company: string;
+  companySlug: string;
 }) {
   const [crawlStates, setCrawlStates] = useState<Record<string, CrawlState>>({});
 
+  const { toast } = useToast();
   const updateCrawlState = (url: string, state: Partial<CrawlState>) => {
     setCrawlStates((prev) => ({
       ...prev,
@@ -69,7 +73,7 @@ export default function CrawlList({
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch source code';
 
       if (errorMessage.includes('Cloudflare')) {
-        console.log('Cloudflare error, trying ScraperAPI');
+        console.error('Cloudflare error, trying ScraperAPI');
         return await getSourceCodeFromScraperApi(url);
       }
       throw error;
@@ -102,9 +106,8 @@ export default function CrawlList({
     try {
       const sourceCode = await getSourceCode(url);
 
-      console.log('sourceCode', sourceCode);
       if (!sourceCode) {
-        console.log('Failed to get source code from any source');
+        console.error('Failed to get source code from any source');
         throw new Error('Failed to get source code from any source');
       }
 
@@ -119,23 +122,62 @@ export default function CrawlList({
     }
   };
 
+  const handleAddJob = async (job: Job) => {
+    try {
+      const response = await fetch('/api/companies/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          companyId: companySlug,
+          job,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add job');
+      }
+
+      const result = await response.json();
+
+      toast({
+        title: result.jobAdded ? 'Success' : 'Note',
+        description: result.jobAdded
+          ? 'Job added successfully'
+          : 'Job already exists in the database',
+        variant: result.jobAdded ? 'default' : 'destructive',
+      });
+    } catch (error) {
+      console.error('Error adding job:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to add job',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
-        <h2 className="text-lg font-medium">Job Listings</h2>
+        <h2 className="text-xl font-bold">Job Crawler</h2>
         {Object.values(crawlStates).some((state) => state.jobs) && (
           <span className="text-sm text-muted-foreground">
             (
-            {Object.values(crawlStates).reduce(
-              (total, state) => total + (state.jobs?.length || 0),
-              0
-            )}{' '}
-            jobs found)
+            {(() => {
+              const jobCount = Object.values(crawlStates).reduce(
+                (total, state) => total + (state.jobs?.length || 0),
+                0
+              );
+              return `${jobCount} ${jobCount === 1 ? 'Job' : 'Jobs'} found`;
+            })()}
+            )
           </span>
         )}
       </div>
       <ul className="grid gap-4">
-        {jobListings.map((listing, index) => (
+        {jobListings.filter(Boolean).map((listing, index) => (
           <li key={index} className="border rounded p-4 space-y-4">
             <div className="grid grid-cols-6 items-center gap-4">
               <a
@@ -167,7 +209,17 @@ export default function CrawlList({
               <div className="space-y-3 text-sm">
                 {crawlStates[listing].jobs.map((job, jobIndex) => (
                   <div key={jobIndex} className="border p-4">
-                    <h3 className="font-semibold mb-2">{job.title}</h3>
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="font-semibold">{job.title}</h3>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleAddJob(job)}
+                        className="ml-2"
+                      >
+                        Add
+                      </Button>
+                    </div>
                     <div className="text-muted-foreground">
                       {job.company && <div className="">Company: {job.company}</div>}
                       {job.url && (

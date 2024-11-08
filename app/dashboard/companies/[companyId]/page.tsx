@@ -1,56 +1,32 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import { parse } from 'csv-parse/sync';
-import { notFound } from 'next/navigation';
+import { TransformedCompany } from '@/app/api/companies/route';
 import CrawlList from '@/components/ui/crawl-list';
-
-interface CompanyDetails {
-  name: string;
-  priority: string;
-  status: string;
-  checked: string;
-  jobListings: string[];
-  website: string;
-  notes: string;
-}
-
-interface CompanyRecord {
-  Company: string;
-  Priority: string;
-  Status: string;
-  Checked: string;
-  'Job Listing (1)': string;
-  'Job Listing (2)': string;
-  "Company's general website": string;
-  'Additional data / notes': string;
-}
-
-async function getCompanyDetails(companyId: string): Promise<CompanyDetails | null> {
+import { notFound } from 'next/navigation';
+async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
   try {
-    const csvPath = path.join(process.cwd(), 'app/data/Altprotein - jobs.csv');
-
-    const fileContents = await fs.readFile(csvPath, 'utf-8');
-    const records = parse(fileContents, {
-      columns: true,
-      skip_empty_lines: true,
-      trim: true,
-      relax_quotes: true,
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies`, {
+      cache: 'no-store',
     });
+    if (!response.ok) return null;
 
-    const company = records.find(
-      (row: CompanyRecord) => row['Company']?.toLowerCase().replace(/[.,\s]+/g, '-') === companyId
-    );
+    const companies = (await response.json()) as TransformedCompany[];
+    if (!companies) return null;
 
+    const company = companies.find((c: TransformedCompany) => c.slug === companyId);
     if (!company) return null;
 
     return {
-      name: company['Company'],
-      priority: company['Priority'],
-      status: company['Status'],
-      checked: company['Checked'],
-      jobListings: [company['Job Listing (1)'], company['Job Listing (2)']].filter(Boolean),
-      website: company["Company's general website"],
-      notes: company['Additional data / notes'],
+      name: company.name,
+      priority: company.priority,
+      slug: company.slug,
+      date: company.date,
+      employer: company.employer,
+      jboard: company.jboard,
+      jobListing1: company.jobListing1,
+      jobListing2: company.jobListing2,
+      status: company.status,
+      issue: company.issue,
+      notes: company.notes,
+      url: company.url,
     };
   } catch (error) {
     console.error('Error loading company details:', error);
@@ -69,7 +45,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">{company.name}</h1>
-        <div className="text-sm text-muted-foreground">Last checked: {company.checked}</div>
+        <div className="text-sm text-muted-foreground">Last checked: {company.date}</div>
       </div>
 
       <div className="grid gap-4">
@@ -84,25 +60,86 @@ export default async function CompanyPage({ params }: { params: { companyId: str
               <dt className="font-medium text-muted-foreground">Status:</dt>
               <dd>{company.status || 'Not set'}</dd>
             </div>
+          </dl>
+        </div>
+
+        <div className="grid gap-2">
+          <h2 className="text-lg font-medium">Company Information</h2>
+          <dl className="grid gap-2 text-sm">
             <div className="grid grid-cols-[100px_1fr] items-center">
-              <dt className="font-medium text-muted-foreground">Website:</dt>
+              <dt className="font-medium text-muted-foreground">Employer:</dt>
+              <dd>{company.employer || 'Not set'}</dd>
+            </div>
+            <div className="grid grid-cols-[100px_1fr] items-center">
+              <dt className="font-medium text-muted-foreground">Job Board:</dt>
+              <dd>{company.jboard || 'Not set'}</dd>
+            </div>
+            <div className="grid grid-cols-[100px_1fr] items-center">
+              <dt className="font-medium text-muted-foreground">URL:</dt>
               <dd>
-                {company.website ? (
+                {company.url ? (
                   <a
-                    href={company.website}
+                    href={company.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline"
+                    className="text-blue-500 hover:underline"
                   >
-                    {company.website}
+                    {company.url}
                   </a>
                 ) : (
-                  'Not available'
+                  'Not set'
                 )}
               </dd>
             </div>
           </dl>
         </div>
+
+        <div className="grid gap-2">
+          <h2 className="text-lg font-medium">Job Listings</h2>
+          <dl className="grid gap-2 text-sm">
+            <div className="grid grid-cols-[100px_1fr] items-center break-words">
+              <dt className="font-medium text-muted-foreground">Listing 1:</dt>
+              <dd>
+                {company.jobListing1 ? (
+                  <a
+                    href={company.jobListing1}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline truncate"
+                  >
+                    Link
+                  </a>
+                ) : (
+                  'Not set'
+                )}
+              </dd>
+            </div>
+            <div className="grid grid-cols-[100px_1fr] items-center">
+              <dt className="font-medium text-muted-foreground">Listing 2:</dt>
+              <dd>
+                {company.jobListing2 ? (
+                  <a
+                    href={company.jobListing2}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    {company.jobListing2}
+                  </a>
+                ) : (
+                  'Not set'
+                )}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        {company.issue && (
+          <div className="grid gap-2">
+            <h2 className="text-lg font-medium">Issues</h2>
+            <p className="text-sm text-muted-foreground">{company.issue}</p>
+          </div>
+        )}
 
         {company.notes && (
           <div className="grid gap-2">
@@ -111,11 +148,13 @@ export default async function CompanyPage({ params }: { params: { companyId: str
           </div>
         )}
 
-        {company.jobListings.length > 0 && (
-          <div className="grid gap-2">
-            <CrawlList jobListings={company.jobListings} company={company.name} />
-          </div>
-        )}
+        <div className="mt-8">
+          <CrawlList
+            jobListings={[company.jobListing1, company.jobListing2].filter(Boolean)}
+            company={company.name}
+            companySlug={params.companyId}
+          />
+        </div>
       </div>
     </div>
   );

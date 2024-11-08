@@ -2,6 +2,10 @@
 
 Working draft on a fully represantion of https://altproteincareers.com/
 
+## Test Cases for LinkedIn
+
+- Coperion: Rate Limiter LinkedIn
+
 ## TODO
 
 - Check idealist.org
