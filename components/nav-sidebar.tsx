@@ -38,7 +38,7 @@ const initialData = {
   navMain: [
     {
       title: 'Companies',
-      url: '#',
+      url: '/dashboard',
       icon: Building,
       isActive: true,
     },
@@ -99,7 +99,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-                <a href="#">
+                <Link href="/dashboard">
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gray-800 text-sidebar-primary-foreground">
                     <Command className="size-4" />
                   </div>
@@ -107,7 +107,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <span className="truncate font-semibold">Altprotein Careers</span>
                     <span className="truncate text-xs">Altprotein</span>
                   </div>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

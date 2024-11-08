@@ -3,6 +3,7 @@ import { ArrowRight, Clock } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+
 type BlogPost = {
   id: number;
   title: string;
@@ -10,9 +11,10 @@ type BlogPost = {
   date: string;
   image: string;
   slug: string;
+  originalUrl: string;
 };
 
-const blogPosts: BlogPost[] = [
+export const blogPosts: BlogPost[] = [
   {
     id: 1,
     title: "We've Expanded to Europe!✈️",
@@ -22,6 +24,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'expanded-to-europe',
+    originalUrl: 'https://altproteincareers.com/blog/Now-in-Europe',
   },
   {
     id: 2,
@@ -32,6 +35,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'join-community',
+    originalUrl: 'https://altproteincareers.com/blog/Join-the-Community',
   },
   {
     id: 3,
@@ -42,6 +46,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'recommended-reads',
+    originalUrl: 'https://altproteincareers.com/blog/Recommended-Reads',
   },
   {
     id: 4,
@@ -52,6 +57,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'career-roadmap',
+    originalUrl: 'https://altproteincareers.com/blog/Where-to-Start',
   },
   {
     id: 5,
@@ -62,6 +68,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'meat-industry',
+    originalUrl: 'https://altproteincareers.com/blog/Our-messed-up-meat-industry',
   },
   {
     id: 6,
@@ -72,6 +79,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'resume-templates',
+    originalUrl: 'https://altproteincareers.com/blog/Resume-Templates',
   },
   {
     id: 7,
@@ -82,6 +90,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'climate-quitting',
+    originalUrl: 'https://altproteincareers.com/blog/Is-2024-the-Year-of-Climate-Quitting',
   },
   {
     id: 8,
@@ -92,6 +101,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'podcast-launch',
+    originalUrl: 'https://altproteincareers.com/blog/Podcast-Launch',
   },
   {
     id: 9,
@@ -102,6 +112,7 @@ const blogPosts: BlogPost[] = [
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-11-07%20at%2015.37.02-e76eja9XwJrd0xJ0iStIbTn72WHxYJ.jpeg',
     slug: 'food-climate-action',
+    originalUrl: 'https://altproteincareers.com/blog/Why-Food-Matters-in-Taking-Climate-Action',
   },
 ];
 
