@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { blogPosts } from '../BlogGrid';
 import Markdown from 'react-markdown';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 async function MarkdownContent({ url }: { url: string }) {
   const markdown = await fetch(`https://r.jina.ai/${encodeURIComponent(url)}`, {
@@ -56,7 +57,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
       <Suspense
         fallback={
           <div className="flex justify-center items-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <LoadingSpinner />
           </div>
         }
       >

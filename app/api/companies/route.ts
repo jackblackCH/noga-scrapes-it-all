@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import Airtable, { FieldSet, Record } from 'airtable';
+import { Job } from '@/app/types/job';
 
 interface AirtableFields extends FieldSet {
   Company?: string;
@@ -8,6 +9,7 @@ interface AirtableFields extends FieldSet {
   Employer?: string;
   Priority?: number;
   Checked?: string;
+  JobsUpdated?: string;
   JBoard?: string;
   JobListing1?: string;
   JobListing2?: string;
@@ -15,6 +17,7 @@ interface AirtableFields extends FieldSet {
   Issue?: string;
   Notes?: string;
   URL?: string;
+  JobsFoundJSON?: string;
 }
 
 export interface TransformedCompany {
@@ -22,6 +25,7 @@ export interface TransformedCompany {
   slug: string;
   priority: number;
   date: string;
+  jobsUpdated: string;
   employer: string;
   jboard: string;
   jobListing1: string;
@@ -30,14 +34,8 @@ export interface TransformedCompany {
   issue: string;
   notes: string;
   url: string;
+  jobsFound: Job[];
 }
-
-// function createSlug(name: string): string {
-//   return name
-//     .toLowerCase()
-//     .replace(/[^a-z0-9]+/g, '-')
-//     .replace(/^-+|-+$/g, ''); // Removed .replace(/\.$/, '') since replace(/^-+|-+$/g, '') already handles dashes at start/end
-// }
 
 function transformCompany(company: AirtableFields): TransformedCompany {
   const name = company.Company?.trim() || '';
@@ -46,6 +44,7 @@ function transformCompany(company: AirtableFields): TransformedCompany {
     priority: company.Priority || 0,
     slug: company.Slug || '',
     date: company.Checked || 'NEW',
+    jobsUpdated: company.JobsUpdated || '',
     employer: company.Employer || '',
     jboard: company.JBoard || '',
     jobListing1: company.JobListing1 || '',
@@ -54,6 +53,7 @@ function transformCompany(company: AirtableFields): TransformedCompany {
     issue: company.Issue || '',
     notes: company.Notes || '',
     url: company.URL || '',
+    jobsFound: JSON.parse(company.JobsFoundJSON || '[]') as Job[],
   };
 }
 
@@ -84,6 +84,7 @@ export async function GET() {
         Employer: record.fields.Employer,
         Priority: record.fields.Priority,
         Checked: record.fields.Checked,
+        JobsUpdated: record.fields.JobsUpdated,
         JBoard: record.fields.JBoard,
         JobListing1: record.fields.JobListing1,
         JobListing2: record.fields.JobListing2,
@@ -91,6 +92,7 @@ export async function GET() {
         Issue: record.fields.Issue,
         Notes: record.fields.Notes,
         URL: record.fields.URL,
+        JobsFoundJSON: record.fields.JobsFoundJSON,
       }))
       .map(transformCompany)
       .sort((a, b) => {

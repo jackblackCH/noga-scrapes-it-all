@@ -8,6 +8,9 @@ export interface Job {
   type: string | null;
   description: string | null;
   url: string | null;
+  jobsUpdated: string | null;
+  dateUpdated: string | null;
+  tags: string[] | null;
 }
 
 export interface JobExtractionResult {

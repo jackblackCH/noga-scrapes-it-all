@@ -1,4 +1,4 @@
-import { Job } from "./job";
+import { Job } from './job';
 
 export interface Company {
   Company: string;
@@ -11,7 +11,4 @@ export interface Company {
   jobs?: Job[];
 }
 
-export type SortableCompanyFields = keyof Pick<
-  Company,
-  "Priority" | "Checked" | "Company"
->;
+export type SortableCompanyFields = keyof Pick<Company, 'Priority' | 'Checked' | 'Company'>;

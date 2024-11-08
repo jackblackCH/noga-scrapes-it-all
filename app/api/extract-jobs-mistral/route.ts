@@ -4,17 +4,7 @@ import { Mistral } from '@mistralai/mistralai';
 import { z } from 'zod';
 
 // Types
-export interface Job {
-  title: string | null;
-  company: string | null;
-  location: string | null;
-  experience: string | null;
-  skills: string[] | null;
-  salary: string | null;
-  type: string | null;
-  description: string | null;
-  url: string | null;
-}
+import { Job } from '@/app/types/job';
 
 interface ExtractionResult {
   jobs: Job[];

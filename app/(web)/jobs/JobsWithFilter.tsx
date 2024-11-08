@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -12,22 +12,10 @@ import {
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Clock } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
 
-type Job = {
-  id: number;
-  title: string;
-  company: string;
-  location: string;
-  experience: string;
-  skills: string[];
-  salary: string;
-  type: string;
-  description: string;
-  url: string;
-  logo: string;
-  tags: string[];
-  postedAt: string;
-};
+import { Job } from '@/app/types/job';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 type Filters = {
   searchTerm: string;
@@ -39,87 +27,87 @@ type Filters = {
   sortBy: string;
 };
 
-const jobsData: Job[] = [
-  {
-    id: 1,
-    title: 'Account Manager (Europe)',
-    company: 'Novonesis',
-    location: 'Lyngby, Denmark',
-    experience: 'Mid-level',
-    skills: ['Account Management', 'Business Development'],
-    salary: '$60,000 - $80,000',
-    type: 'Full-time',
-    description: 'We are seeking an experienced Account Manager to join our European team...',
-    url: '#',
-    logo: '/placeholder.svg?height=40&width=40',
-    tags: ['Account Management', 'Business Development', 'Europe'],
-    postedAt: '4h ago',
-  },
-  {
-    id: 2,
-    title: 'Third Party Cyber Risk Manager',
-    company: 'Novonesis',
-    location: 'Kuala Lumpur, Malaysia',
-    experience: 'Senior',
-    skills: ['Cyber Security', 'Risk Management'],
-    salary: '$80,000 - $100,000',
-    type: 'Full-time',
-    description:
-      'Join our team as a Third Party Cyber Risk Manager to oversee and mitigate risks...',
-    url: '#',
-    logo: '/placeholder.svg?height=40&width=40',
-    tags: ['Cyber Security', 'Risk Management'],
-    postedAt: '13h ago',
-  },
-  {
-    id: 3,
-    title: 'Senior Risk Manager',
-    company: 'Novonesis',
-    location: 'Kuala Lumpur, Malaysia',
-    experience: 'Senior',
-    skills: ['Risk Management', 'Financial Analysis'],
-    salary: '$90,000 - $120,000',
-    type: 'Full-time',
-    description:
-      "We're looking for a Senior Risk Manager to lead our risk assessment and mitigation strategies...",
-    url: '#',
-    logo: '/placeholder.svg?height=40&width=40',
-    tags: ['Senior / Director level', 'Risk Management'],
-    postedAt: '13h ago',
-  },
-  {
-    id: 4,
-    title: 'Senior Industry Technology Specialist',
-    company: 'Novonesis',
-    location: 'Bangalore, India',
-    experience: 'Senior',
-    skills: ['Industry 4.0', 'IoT', 'Data Analytics'],
-    salary: '$70,000 - $100,000',
-    type: 'Full-time',
-    description:
-      'Join us as a Senior Industry Technology Specialist to drive technological innovation...',
-    url: '#',
-    logo: '/placeholder.svg?height=40&width=40',
-    tags: ['Technology', 'Senior / Director level'],
-    postedAt: '13h ago',
-  },
-  {
-    id: 5,
-    title: 'Production Coordinator, Production Scheduling',
-    company: 'Novonesis',
-    location: 'Kalundborg, Denmark',
-    experience: 'Mid-level',
-    skills: ['Production Planning', 'Supply Chain Management'],
-    salary: '$50,000 - $70,000',
-    type: 'Full-time',
-    description:
-      'We are seeking a Production Coordinator to optimize our production scheduling in Kalundborg...',
-    url: '#',
-    logo: '/placeholder.svg?height=40&width=40',
-    tags: ['Manufacturing', 'Logistics', 'Europe'],
-    postedAt: '13h ago',
-  },
-];
+// const jobsData: Job[] = [
+//   {
+//     id: 1,
+//     title: 'Account Manager (Europe)',
+//     company: 'Novonesis',
+//     location: 'Lyngby, Denmark',
+//     experience: 'Mid-level',
+//     skills: ['Account Management', 'Business Development'],
+//     salary: '$60,000 - $80,000',
+//     type: 'Full-time',
+//     description: 'We are seeking an experienced Account Manager to join our European team...',
+//     url: '#',
+//     logo: '/placeholder.svg?height=40&width=40',
+//     tags: ['Account Management', 'Business Development', 'Europe'],
+//     postedAt: '4h ago',
+//   },
+//   {
+//     id: 2,
+//     title: 'Third Party Cyber Risk Manager',
+//     company: 'Novonesis',
+//     location: 'Kuala Lumpur, Malaysia',
+//     experience: 'Senior',
+//     skills: ['Cyber Security', 'Risk Management'],
+//     salary: '$80,000 - $100,000',
+//     type: 'Full-time',
+//     description:
+//       'Join our team as a Third Party Cyber Risk Manager to oversee and mitigate risks...',
+//     url: '#',
+//     logo: '/placeholder.svg?height=40&width=40',
+//     tags: ['Cyber Security', 'Risk Management'],
+//     postedAt: '13h ago',
+//   },
+//   {
+//     id: 3,
+//     title: 'Senior Risk Manager',
+//     company: 'Novonesis',
+//     location: 'Kuala Lumpur, Malaysia',
+//     experience: 'Senior',
+//     skills: ['Risk Management', 'Financial Analysis'],
+//     salary: '$90,000 - $120,000',
+//     type: 'Full-time',
+//     description:
+//       "We're looking for a Senior Risk Manager to lead our risk assessment and mitigation strategies...",
+//     url: '#',
+//     logo: '/placeholder.svg?height=40&width=40',
+//     tags: ['Senior / Director level', 'Risk Management'],
+//     postedAt: '13h ago',
+//   },
+//   {
+//     id: 4,
+//     title: 'Senior Industry Technology Specialist',
+//     company: 'Novonesis',
+//     location: 'Bangalore, India',
+//     experience: 'Senior',
+//     skills: ['Industry 4.0', 'IoT', 'Data Analytics'],
+//     salary: '$70,000 - $100,000',
+//     type: 'Full-time',
+//     description:
+//       'Join us as a Senior Industry Technology Specialist to drive technological innovation...',
+//     url: '#',
+//     logo: '/placeholder.svg?height=40&width=40',
+//     tags: ['Technology', 'Senior / Director level'],
+//     postedAt: '13h ago',
+//   },
+//   {
+//     id: 5,
+//     title: 'Production Coordinator, Production Scheduling',
+//     company: 'Novonesis',
+//     location: 'Kalundborg, Denmark',
+//     experience: 'Mid-level',
+//     skills: ['Production Planning', 'Supply Chain Management'],
+//     salary: '$50,000 - $70,000',
+//     type: 'Full-time',
+//     description:
+//       'We are seeking a Production Coordinator to optimize our production scheduling in Kalundborg...',
+//     url: '#',
+//     logo: '/placeholder.svg?height=40&width=40',
+//     tags: ['Manufacturing', 'Logistics', 'Europe'],
+//     postedAt: '13h ago',
+//   },
+// ];
 
 const JobCard: React.FC<{ job: Job }> = React.memo(({ job }) => (
   <Card className="mb-4">
@@ -132,7 +120,7 @@ const JobCard: React.FC<{ job: Job }> = React.memo(({ job }) => (
             {job.company} • {job.location}
           </p>
           <div className="flex flex-wrap gap-2 mt-2">
-            {job.tags.map((tag, index) => (
+            {job?.tags?.map((tag, index) => (
               <span key={index} className="px-2 py-1 bg-gray-200 text-sm rounded-full">
                 {tag}
               </span>
@@ -141,7 +129,9 @@ const JobCard: React.FC<{ job: Job }> = React.memo(({ job }) => (
         </div>
         <div className="text-sm text-gray-500 flex items-center whitespace-nowrap">
           <Clock className="w-4 h-4 mr-1" />
-          {job.postedAt}
+          {job.dateUpdated
+            ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
+            : 'more than 24 hours ago'}
         </div>
       </div>
     </CardContent>
@@ -266,6 +256,8 @@ const FilterSidebar: React.FC<{
 FilterSidebar.displayName = 'FilterSidebar';
 
 export default function JobBoard() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [filters, setFilters] = useState<Filters>({
     searchTerm: '',
     category: 'all',
@@ -281,25 +273,56 @@ export default function JobBoard() {
   }, []);
 
   const filteredJobs = useMemo(() => {
-    return jobsData.filter((job) => {
+    return jobs.filter((job) => {
       const searchMatch =
-        job.title.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        job.company.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        job.skills.some((skill) => skill.toLowerCase().includes(filters.searchTerm.toLowerCase()));
-      const categoryMatch = filters.category === 'all' || job.tags.includes(filters.category);
+        job.title?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        false ||
+        job.company?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        false ||
+        job.skills?.some((skill) =>
+          skill.toLowerCase().includes(filters.searchTerm.toLowerCase())
+        ) ||
+        false;
+      const categoryMatch =
+        filters.category === 'all' || job.tags?.includes(filters.category) || false;
       const locationMatch =
-        !filters.location || job.location.toLowerCase().includes(filters.location.toLowerCase());
-      const remoteMatch = !filters.remoteOnly || job.type.toLowerCase().includes('remote');
+        !filters.location ||
+        job.location?.toLowerCase().includes(filters.location.toLowerCase()) ||
+        false;
+      const remoteMatch =
+        !filters.remoteOnly || job.type?.toLowerCase().includes('remote') || false;
       return searchMatch && categoryMatch && locationMatch && remoteMatch;
     });
-  }, [filters]);
+  }, [filters, jobs]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch('/api/companies/jobs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch jobs');
+        }
+        const data = await response.json();
+        setJobs(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="lg:w-3/4 space-y-4">
-          {filteredJobs.map((job) => (
-            <JobCard key={job.id} job={job} />
+          {filteredJobs.map((job, index) => (
+            <JobCard key={job.title + '-' + index} job={job} />
           ))}
         </div>
         <div className="lg:w-1/4">

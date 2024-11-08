@@ -2,8 +2,8 @@
 'use client';
 
 import { useState } from 'react';
-import type { Job } from '../app/api/extract-jobs-mistral/route';
-import { TEST_CASES } from '../app/data/test_cases/testCases';
+import type { Job } from '@/app/types/job';
+import { TEST_CASES } from '@/app/data/test_cases/testCases';
 
 export async function parseJobsFromUrlWithMistral(
   url: string,

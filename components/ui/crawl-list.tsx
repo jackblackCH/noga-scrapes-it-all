@@ -17,10 +17,12 @@ export default function CrawlList({
   jobListings,
   company,
   companySlug,
+  jobsFound = [],
 }: {
   jobListings: string[];
   company: string;
   companySlug: string;
+  jobsFound?: Job[];
 }) {
   const [crawlStates, setCrawlStates] = useState<Record<string, CrawlState>>({});
 
@@ -93,6 +95,9 @@ export default function CrawlList({
       url: job.url || '',
       description: job.description || '',
       experience: job.experience || '',
+      jobsUpdated: job.jobsUpdated || '',
+      dateUpdated: job.dateUpdated || '',
+      tags: job.tags || [],
     }));
   };
 
@@ -132,6 +137,7 @@ export default function CrawlList({
         body: JSON.stringify({
           companyId: companySlug,
           job,
+          dateUpdated: new Date().toISOString(),
         }),
       });
 
@@ -159,97 +165,130 @@ export default function CrawlList({
   };
 
   return (
-    <div>
-      <div className="flex items-center gap-2 mb-4">
-        <h2 className="text-xl font-bold">Job Crawler</h2>
-        {Object.values(crawlStates).some((state) => state.jobs) && (
-          <span className="text-sm text-muted-foreground">
-            (
-            {(() => {
-              const jobCount = Object.values(crawlStates).reduce(
-                (total, state) => total + (state.jobs?.length || 0),
-                0
-              );
-              return `${jobCount} ${jobCount === 1 ? 'Job' : 'Jobs'} found`;
-            })()}
-            )
-          </span>
-        )}
-      </div>
-      <ul className="grid gap-4">
-        {jobListings.filter(Boolean).map((listing, index) => (
-          <li key={index} className="border rounded p-4 space-y-4">
-            <div className="grid grid-cols-6 items-center gap-4">
-              <a
-                href={listing}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-primary col-span-5 hover:underline truncate"
-              >
-                {listing}
-              </a>
-              <Button
-                className="w-full col-span-1"
-                onClick={() => handleCrawl(listing, company)}
-                disabled={crawlStates[listing]?.isLoading}
-              >
-                {crawlStates[listing]?.isLoading ? (
-                  <Loader2 className="h-3 w-3 animate-spin" />
-                ) : (
-                  'Crawl'
-                )}
-              </Button>
-            </div>
-
-            {crawlStates[listing]?.error && (
-              <div className="text-sm text-red-500 mt-2">Error: {crawlStates[listing].error}</div>
-            )}
-
-            {crawlStates[listing]?.jobs && (
-              <div className="space-y-3 text-sm">
-                {crawlStates[listing].jobs.map((job, jobIndex) => (
-                  <div key={jobIndex} className="border p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold">{job.title}</h3>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleAddJob(job)}
-                        className="ml-2"
-                      >
-                        Add
-                      </Button>
-                    </div>
-                    <div className="text-muted-foreground">
-                      {job.company && <div className="">Company: {job.company}</div>}
-                      {job.url && (
-                        <div>
-                          Job detail url:{' '}
-                          <a
-                            href={
-                              job.url?.startsWith('/')
-                                ? `${new URL(listing).origin}${job.url}`
-                                : job.url
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline"
-                          >
-                            {job.url}
-                          </a>
-                        </div>
-                      )}
-                      {job.location && <div>Location: {job.location}</div>}
-                      {job.salary && <div>Salary: {job.salary}</div>}
-                      {job.type && <div>Type: {job.type}</div>}
-                    </div>
-                  </div>
-                ))}
+    <div className="grid md:grid-cols-2 gap-4">
+      <div className="imported">
+        <h3 className="text-lg font-semibold mb-3">Existing Jobs in Database</h3>
+        <div className="space-y-3 text-sm">
+          {jobsFound.map((job, index) => (
+            <div key={index} className="border rounded-lg p-4">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-semibold">{job.title}</h3>
               </div>
-            )}
-          </li>
-        ))}
-      </ul>
+              <div className="text-muted-foreground">
+                {job.company && <div>Company: {job.company}</div>}
+                {job.url && (
+                  <div>
+                    Job detail url:{' '}
+                    <a
+                      href={job.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      {job.url}
+                    </a>
+                  </div>
+                )}
+                {job.location && <div>Location: {job.location}</div>}
+                {job.salary && <div>Salary: {job.salary}</div>}
+                {job.type && <div>Type: {job.type}</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="crawler">
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="text-xl font-bold">Job Crawler</h2>
+          {Object.values(crawlStates).some((state) => state.jobs) && (
+            <span className="text-sm text-muted-foreground">
+              (
+              {(() => {
+                const jobCount = Object.values(crawlStates).reduce(
+                  (total, state) => total + (state.jobs?.length || 0),
+                  0
+                );
+                return `${jobCount} ${jobCount === 1 ? 'Job' : 'Jobs'} found`;
+              })()}
+              )
+            </span>
+          )}
+        </div>
+        <ul className="grid gap-4">
+          {jobListings.filter(Boolean).map((listing, index) => (
+            <li key={index} className="border rounded p-4 space-y-4">
+              <div className="grid grid-cols-6 items-center gap-4">
+                <a
+                  href={listing}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-primary col-span-5 hover:underline truncate"
+                >
+                  {listing}
+                </a>
+                <Button
+                  className="w-full col-span-1"
+                  onClick={() => handleCrawl(listing, company)}
+                  disabled={crawlStates[listing]?.isLoading}
+                >
+                  {crawlStates[listing]?.isLoading ? (
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                  ) : (
+                    'Crawl'
+                  )}
+                </Button>
+              </div>
+
+              {crawlStates[listing]?.error && (
+                <div className="text-sm text-red-500 mt-2">Error: {crawlStates[listing].error}</div>
+              )}
+
+              {crawlStates[listing]?.jobs && (
+                <div className="space-y-3 text-sm">
+                  {crawlStates[listing].jobs.map((job, jobIndex) => (
+                    <div key={jobIndex} className="border p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-semibold">{job.title}</h3>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleAddJob(job)}
+                          className="ml-2"
+                        >
+                          Add
+                        </Button>
+                      </div>
+                      <div className="text-muted-foreground">
+                        {job.company && <div className="">Company: {job.company}</div>}
+                        {job.url && (
+                          <div>
+                            Job detail url:{' '}
+                            <a
+                              href={
+                                job.url?.startsWith('/')
+                                  ? `${new URL(listing).origin}${job.url}`
+                                  : job.url
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              {job.url}
+                            </a>
+                          </div>
+                        )}
+                        {job.location && <div>Location: {job.location}</div>}
+                        {job.salary && <div>Salary: {job.salary}</div>}
+                        {job.type && <div>Type: {job.type}</div>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

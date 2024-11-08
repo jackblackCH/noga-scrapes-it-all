@@ -19,6 +19,7 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
       priority: company.priority,
       slug: company.slug,
       date: company.date,
+      jobsUpdated: company.jobsUpdated,
       employer: company.employer,
       jboard: company.jboard,
       jobListing1: company.jobListing1,
@@ -27,6 +28,7 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
       issue: company.issue,
       notes: company.notes,
       url: company.url,
+      jobsFound: company.jobsFound,
     };
   } catch (error) {
     console.error('Error loading company details:', error);
@@ -50,7 +52,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
 
       <div className="grid gap-4">
         <div className="grid gap-2">
-          <h2 className="text-lg font-medium">Details</h2>
+          <h2 className="text-lg font-semibold">Details</h2>
           <dl className="grid gap-2 text-sm">
             <div className="grid grid-cols-[100px_1fr] items-center">
               <dt className="font-medium text-muted-foreground">Priority:</dt>
@@ -64,7 +66,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
         </div>
 
         <div className="grid gap-2">
-          <h2 className="text-lg font-medium">Company Information</h2>
+          <h2 className="text-lg font-semibold">Company Information</h2>
           <dl className="grid gap-2 text-sm">
             <div className="grid grid-cols-[100px_1fr] items-center">
               <dt className="font-medium text-muted-foreground">Employer:</dt>
@@ -95,7 +97,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
         </div>
 
         <div className="grid gap-2">
-          <h2 className="text-lg font-medium">Job Listings</h2>
+          <h2 className="text-lg font-semibold">Job Listings</h2>
           <dl className="grid gap-2 text-sm">
             <div className="grid grid-cols-[100px_1fr] items-center break-words">
               <dt className="font-medium text-muted-foreground">Listing 1:</dt>
@@ -136,14 +138,14 @@ export default async function CompanyPage({ params }: { params: { companyId: str
 
         {company.issue && (
           <div className="grid gap-2">
-            <h2 className="text-lg font-medium">Issues</h2>
+            <h2 className="text-lg font-semibold">Issues</h2>
             <p className="text-sm text-muted-foreground">{company.issue}</p>
           </div>
         )}
 
         {company.notes && (
           <div className="grid gap-2">
-            <h2 className="text-lg font-medium">Notes</h2>
+            <h2 className="text-lg font-semibold">Notes</h2>
             <p className="text-sm text-muted-foreground">{company.notes}</p>
           </div>
         )}
@@ -153,6 +155,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
             jobListings={[company.jobListing1, company.jobListing2].filter(Boolean)}
             company={company.name}
             companySlug={params.companyId}
+            jobsFound={company.jobsFound}
           />
         </div>
       </div>
