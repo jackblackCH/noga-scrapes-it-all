@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import Image from "next/image";
+import * as React from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import Image from 'next/image';
 
 import {
   Select,
@@ -13,7 +13,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   ChevronLeft,
   ChevronRight,
@@ -21,61 +21,61 @@ import {
   Briefcase,
   Beaker,
   BarChart3,
-} from "lucide-react";
+} from 'lucide-react';
 
 const jobsData = [
   {
     id: 1,
-    title: "Senior Process Engineer (Fermentation)",
-    company: "Adams Foods",
-    location: "United Kingdom",
-    logo: "https://placehold.co/48",
-    postedAgo: "1w ago",
-    tags: ["Bioprocess", "Food Science", "Manufacturing", "Europe"],
+    title: 'Senior Process Engineer (Fermentation)',
+    company: 'Adams Foods',
+    location: 'United Kingdom',
+    logo: 'https://placehold.co/48',
+    postedAgo: '1w ago',
+    tags: ['Bioprocess', 'Food Science', 'Manufacturing', 'Europe'],
   },
   {
     id: 2,
-    title: "Research Scientist - Plant-Based Proteins",
-    company: "GreenEats Inc.",
-    location: "Netherlands",
-    logo: "https://placehold.co/48",
-    postedAgo: "3d ago",
-    tags: ["R&D", "Food Science", "Protein Chemistry", "Europe"],
+    title: 'Research Scientist - Plant-Based Proteins',
+    company: 'GreenEats Inc.',
+    location: 'Netherlands',
+    logo: 'https://placehold.co/48',
+    postedAgo: '3d ago',
+    tags: ['R&D', 'Food Science', 'Protein Chemistry', 'Europe'],
   },
   {
     id: 3,
-    title: "Marketing Manager - Alternative Meats",
-    company: "Future Foods Co.",
-    location: "Germany",
-    logo: "https://placehold.co/48",
-    postedAgo: "5d ago",
-    tags: ["Marketing", "Brand Management", "Food Industry", "Europe"],
+    title: 'Marketing Manager - Alternative Meats',
+    company: 'Future Foods Co.',
+    location: 'Germany',
+    logo: 'https://placehold.co/48',
+    postedAgo: '5d ago',
+    tags: ['Marketing', 'Brand Management', 'Food Industry', 'Europe'],
   },
   {
     id: 4,
-    title: "Quality Assurance Specialist",
-    company: "PurePro Labs",
-    location: "France",
-    logo: "https://placehold.co/48",
-    postedAgo: "2w ago",
-    tags: ["Quality Control", "Food Safety", "Regulatory Compliance", "Europe"],
+    title: 'Quality Assurance Specialist',
+    company: 'PurePro Labs',
+    location: 'France',
+    logo: 'https://placehold.co/48',
+    postedAgo: '2w ago',
+    tags: ['Quality Control', 'Food Safety', 'Regulatory Compliance', 'Europe'],
   },
   {
     id: 5,
-    title: "Supply Chain Analyst - Sustainable Sourcing",
-    company: "EcoNutrition",
-    location: "Spain",
-    logo: "https://placehold.co/48",
-    postedAgo: "4d ago",
-    tags: ["Supply Chain", "Sustainability", "Data Analysis", "Europe"],
+    title: 'Supply Chain Analyst - Sustainable Sourcing',
+    company: 'EcoNutrition',
+    location: 'Spain',
+    logo: 'https://placehold.co/48',
+    postedAgo: '4d ago',
+    tags: ['Supply Chain', 'Sustainability', 'Data Analysis', 'Europe'],
   },
 ];
 
 function JobList() {
   return (
     <section className="container mx-auto px-4">
-      <h2 className="text-2xl font-bold">Latest Jobs</h2>
-      <div className="mt-6 space-y-4">
+      <h2 className="text-2xl font-bold mb-2">Latest Jobs</h2>
+      <div className="space-y-4 pb-8">
         {jobsData.map((job) => (
           <Card key={job.id} className="p-4">
             <div className="flex items-start gap-4">
@@ -98,9 +98,7 @@ function JobList() {
                       {job.company} • {job.location}
                     </p>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    {job.postedAgo}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{job.postedAgo}</p>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {job.tags.map((tag) => (
@@ -139,17 +137,13 @@ export function JobBoard() {
               Do something that matters.
             </h1>
             <p className="mt-4 text-lg text-white/90">
-              Make an impact. Find a job with meaning in the alternative protein
-              industry.
+              Make an impact. Find a job with meaning in the alternative protein industry.
             </p>
             <div className="mx-auto mt-8 max-w-3xl rounded-lg bg-white p-4 shadow-lg">
               <form className="flex flex-col gap-4 md:flex-row">
-                <Input
-                  className="flex-1"
-                  placeholder="Skill, company, role..."
-                />
+                <Input className="flex-1" placeholder="Skill, company, role..." />
                 <Select>
-                  <SelectTrigger className="w-full md:w-[200px] text-gray-500">
+                  <SelectTrigger className="w-full text-base md:w-[200px] text-gray-500">
                     <SelectValue placeholder="Job function..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -159,9 +153,7 @@ export function JobBoard() {
                   </SelectContent>
                 </Select>
                 <Input className="flex-1" placeholder="Location" />
-                <Button className="bg-emerald-700 hover:bg-emerald-800">
-                  Search
-                </Button>
+                <Button className="bg-emerald-700 hover:bg-emerald-800">Search</Button>
               </form>
               <div className="mt-2 flex items-center gap-2">
                 <Checkbox id="remote" />

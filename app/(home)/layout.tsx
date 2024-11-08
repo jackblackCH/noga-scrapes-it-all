@@ -1,4 +1,5 @@
-import Header from "@/components/header";
+import { Footer } from '@/components/footer';
+import Header from '@/components/header';
 
 export default function WebLayout({
   children, // will be a page or nested layout
@@ -9,6 +10,7 @@ export default function WebLayout({
     <>
       <Header />
       <main className="">{children}</main>
+      <Footer />
     </>
   );
 }

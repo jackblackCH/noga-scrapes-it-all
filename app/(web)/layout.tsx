@@ -1,3 +1,4 @@
+import { Footer } from '@/components/footer';
 import Header from '@/components/header';
 
 export default function WebLayout({
@@ -11,6 +12,7 @@ export default function WebLayout({
       <main className="bg-[#fffdf7] min-h-screen">
         <div className="p-4 mx-auto xl:container">{children}</div>
       </main>
+      <Footer />
     </>
   );
 }
