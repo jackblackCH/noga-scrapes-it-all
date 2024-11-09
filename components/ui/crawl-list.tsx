@@ -22,7 +22,7 @@ export default function CrawlList({
   jobListings: string[];
   company: string;
   companySlug: string;
-  jobsFound?: Job[];
+  jobsFound?: string | Job[];
 }) {
   const [crawlStates, setCrawlStates] = useState<Record<string, CrawlState>>({});
 
@@ -169,32 +169,34 @@ export default function CrawlList({
       <div className="imported">
         <h3 className="text-lg font-semibold mb-3">Existing Jobs in Database</h3>
         <div className="space-y-3 text-sm">
-          {jobsFound.map((job, index) => (
-            <div key={index} className="border rounded-lg p-4">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold">{job.title}</h3>
+          {jobsFound &&
+            Array.isArray(jobsFound) &&
+            jobsFound.map((job, index) => (
+              <div key={index} className="border rounded-lg p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-semibold">{job.title}</h3>
+                </div>
+                <div className="text-muted-foreground">
+                  {job.company && <div>Company: {job.company}</div>}
+                  {job.url && (
+                    <div>
+                      Job detail url:{' '}
+                      <a
+                        href={job.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline truncate"
+                      >
+                        {job.url.length > 50 ? `${job.url.slice(0, 50)}...` : job.url}
+                      </a>
+                    </div>
+                  )}
+                  {job.location && <div>Location: {job.location}</div>}
+                  {job.salary && <div>Salary: {job.salary}</div>}
+                  {job.type && <div>Type: {job.type}</div>}
+                </div>
               </div>
-              <div className="text-muted-foreground">
-                {job.company && <div>Company: {job.company}</div>}
-                {job.url && (
-                  <div>
-                    Job detail url:{' '}
-                    <a
-                      href={job.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      {job.url}
-                    </a>
-                  </div>
-                )}
-                {job.location && <div>Location: {job.location}</div>}
-                {job.salary && <div>Salary: {job.salary}</div>}
-                {job.type && <div>Type: {job.type}</div>}
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       <div className="crawler">
@@ -258,7 +260,7 @@ export default function CrawlList({
                           Add
                         </Button>
                       </div>
-                      <div className="text-muted-foreground">
+                      <div className="text-muted-foreground break-words">
                         {job.company && <div className="">Company: {job.company}</div>}
                         {job.url && (
                           <div>
@@ -271,9 +273,9 @@ export default function CrawlList({
                               }
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-primary hover:underline"
+                              className="text-primary hover:underline truncate"
                             >
-                              {job.url}
+                              {job.url.length > 50 ? `${job.url.slice(0, 50)}...` : job.url}
                             </a>
                           </div>
                         )}

@@ -26,6 +26,7 @@ interface Company {
   date: string;
   subject: string;
   teaser: string;
+  jobsUpdated: string;
 }
 
 // Initial sample data
@@ -47,8 +48,8 @@ const initialData = {
 };
 
 async function fetchCompanies() {
-  const response = await fetch('/api/companies?format=transformed', {
-    next: { revalidate: 60 }, // Cache for 60 seconds
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
+    next: { revalidate: 10 }, // Cache for 60 seconds
   });
 
   if (!response.ok) {
@@ -179,7 +180,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   >
                     <div className="flex w-full items-center gap-2">
                       <span>{company.name}</span>{' '}
-                      <span className="ml-auto text-xs">Last checked: {company.date}</span>
+                      <span className="ml-auto text-xs">
+                        Last checked:{' '}
+                        {company.jobsUpdated
+                          ? new Date(company.jobsUpdated).toLocaleDateString()
+                          : 'Never'}
+                      </span>
                     </div>
                   </Link>
                 ))

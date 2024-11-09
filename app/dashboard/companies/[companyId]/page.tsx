@@ -3,7 +3,7 @@ import CrawlList from '@/components/ui/crawl-list';
 import { notFound } from 'next/navigation';
 async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
       cache: 'no-store',
     });
     if (!response.ok) return null;
@@ -18,8 +18,6 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
       name: company.name,
       priority: company.priority,
       slug: company.slug,
-      date: company.date,
-      jobsUpdated: company.jobsUpdated,
       employer: company.employer,
       jboard: company.jboard,
       jobListing1: company.jobListing1,
@@ -29,6 +27,7 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
       notes: company.notes,
       url: company.url,
       jobsFound: company.jobsFound,
+      jobsUpdated: company.jobsUpdated,
     };
   } catch (error) {
     console.error('Error loading company details:', error);
@@ -47,13 +46,18 @@ export default async function CompanyPage({ params }: { params: { companyId: str
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">{company.name}</h1>
-        <div className="text-sm text-muted-foreground">Last checked: {company.date}</div>
       </div>
 
       <div className="grid gap-4">
         <div className="grid gap-2">
           <h2 className="text-lg font-semibold">Details</h2>
           <dl className="grid gap-2 text-sm">
+            <div className="grid grid-cols-[100px_1fr] items-center">
+              <dt className="font-medium text-muted-foreground">Last checked:</dt>
+              <dd>
+                {company.jobsUpdated ? new Date(company.jobsUpdated).toLocaleDateString() : 'Never'}
+              </dd>
+            </div>
             <div className="grid grid-cols-[100px_1fr] items-center">
               <dt className="font-medium text-muted-foreground">Priority:</dt>
               <dd>{company.priority || 'Not set'}</dd>
@@ -126,7 +130,9 @@ export default async function CompanyPage({ params }: { params: { companyId: str
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:underline"
                   >
-                    {company.jobListing2}
+                    {company.jobListing2.length > 50
+                      ? `${company.jobListing2.slice(0, 50)}...`
+                      : company.jobListing2}
                   </a>
                 ) : (
                   'Not set'

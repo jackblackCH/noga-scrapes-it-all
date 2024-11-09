@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Suspense } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 async function RecentCompanies() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/recent`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/recent`, {
     next: { revalidate: 5 }, // Revalidate every 5 minutes
   });
   const companies = await response.json();
@@ -28,7 +29,9 @@ async function RecentCompanies() {
                 )}
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium">{company.name}</p>
+                <Link href={`dashboard/companies/${company.slug}`} className="text-sm font-medium">
+                  {company.name}
+                </Link>
                 <p className="text-xs text-muted-foreground">
                   Updated {new Date(company.lastUpdated).toLocaleDateString()}
                 </p>

@@ -9,7 +9,6 @@ interface AirtableFields extends FieldSet {
   Employer?: string;
   Priority?: number;
   Checked?: string;
-  JobsUpdated?: string;
   JBoard?: string;
   JobListing1?: string;
   JobListing2?: string;
@@ -18,14 +17,13 @@ interface AirtableFields extends FieldSet {
   Notes?: string;
   URL?: string;
   JobsFoundJSON?: string;
+  JobsUpdated?: string;
 }
 
 export interface TransformedCompany {
   name: string;
   slug: string;
   priority: number;
-  date: string;
-  jobsUpdated: string;
   employer: string;
   jboard: string;
   jobListing1: string;
@@ -34,17 +32,17 @@ export interface TransformedCompany {
   issue: string;
   notes: string;
   url: string;
-  jobsFound: Job[];
+  jobsFound: Job[] | string;
+  jobsUpdated: string;
 }
 
 function transformCompany(company: AirtableFields): TransformedCompany {
   const name = company.Company?.trim() || '';
+
   return {
     name,
     priority: company.Priority || 0,
     slug: company.Slug || '',
-    date: company.Checked || 'NEW',
-    jobsUpdated: company.JobsUpdated || '',
     employer: company.Employer || '',
     jboard: company.JBoard || '',
     jobListing1: company.JobListing1 || '',
@@ -53,7 +51,17 @@ function transformCompany(company: AirtableFields): TransformedCompany {
     issue: company.Issue || '',
     notes: company.Notes || '',
     url: company.URL || '',
-    jobsFound: JSON.parse(company.JobsFoundJSON || '[]') as Job[],
+    jobsFound: company.JobsFoundJSON
+      ? (() => {
+          try {
+            return JSON.parse(company.JobsFoundJSON);
+          } catch (error) {
+            console.error(`Error parsing JobsFoundJSON for ${company.Company}: ${error}`);
+            return [];
+          }
+        })()
+      : [],
+    jobsUpdated: company.JobsUpdated || '',
   };
 }
 
@@ -84,7 +92,6 @@ export async function GET() {
         Employer: record.fields.Employer,
         Priority: record.fields.Priority,
         Checked: record.fields.Checked,
-        JobsUpdated: record.fields.JobsUpdated,
         JBoard: record.fields.JBoard,
         JobListing1: record.fields.JobListing1,
         JobListing2: record.fields.JobListing2,
@@ -93,6 +100,7 @@ export async function GET() {
         Notes: record.fields.Notes,
         URL: record.fields.URL,
         JobsFoundJSON: record.fields.JobsFoundJSON,
+        JobsUpdated: record.fields.JobsUpdated,
       }))
       .map(transformCompany)
       .sort((a, b) => {

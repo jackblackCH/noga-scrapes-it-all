@@ -11,6 +11,7 @@ export interface Job {
   jobsUpdated: string | null;
   dateUpdated: string | null;
   tags: string[] | null;
+  slug: string | null;
 }
 
 export interface JobExtractionResult {

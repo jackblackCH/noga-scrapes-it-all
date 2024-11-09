@@ -13,6 +13,7 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import Link from 'next/link';
 
 import { Job } from '@/app/types/job';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
@@ -27,115 +28,35 @@ type Filters = {
   sortBy: string;
 };
 
-// const jobsData: Job[] = [
-//   {
-//     id: 1,
-//     title: 'Account Manager (Europe)',
-//     company: 'Novonesis',
-//     location: 'Lyngby, Denmark',
-//     experience: 'Mid-level',
-//     skills: ['Account Management', 'Business Development'],
-//     salary: '$60,000 - $80,000',
-//     type: 'Full-time',
-//     description: 'We are seeking an experienced Account Manager to join our European team...',
-//     url: '#',
-//     logo: '/placeholder.svg?height=40&width=40',
-//     tags: ['Account Management', 'Business Development', 'Europe'],
-//     postedAt: '4h ago',
-//   },
-//   {
-//     id: 2,
-//     title: 'Third Party Cyber Risk Manager',
-//     company: 'Novonesis',
-//     location: 'Kuala Lumpur, Malaysia',
-//     experience: 'Senior',
-//     skills: ['Cyber Security', 'Risk Management'],
-//     salary: '$80,000 - $100,000',
-//     type: 'Full-time',
-//     description:
-//       'Join our team as a Third Party Cyber Risk Manager to oversee and mitigate risks...',
-//     url: '#',
-//     logo: '/placeholder.svg?height=40&width=40',
-//     tags: ['Cyber Security', 'Risk Management'],
-//     postedAt: '13h ago',
-//   },
-//   {
-//     id: 3,
-//     title: 'Senior Risk Manager',
-//     company: 'Novonesis',
-//     location: 'Kuala Lumpur, Malaysia',
-//     experience: 'Senior',
-//     skills: ['Risk Management', 'Financial Analysis'],
-//     salary: '$90,000 - $120,000',
-//     type: 'Full-time',
-//     description:
-//       "We're looking for a Senior Risk Manager to lead our risk assessment and mitigation strategies...",
-//     url: '#',
-//     logo: '/placeholder.svg?height=40&width=40',
-//     tags: ['Senior / Director level', 'Risk Management'],
-//     postedAt: '13h ago',
-//   },
-//   {
-//     id: 4,
-//     title: 'Senior Industry Technology Specialist',
-//     company: 'Novonesis',
-//     location: 'Bangalore, India',
-//     experience: 'Senior',
-//     skills: ['Industry 4.0', 'IoT', 'Data Analytics'],
-//     salary: '$70,000 - $100,000',
-//     type: 'Full-time',
-//     description:
-//       'Join us as a Senior Industry Technology Specialist to drive technological innovation...',
-//     url: '#',
-//     logo: '/placeholder.svg?height=40&width=40',
-//     tags: ['Technology', 'Senior / Director level'],
-//     postedAt: '13h ago',
-//   },
-//   {
-//     id: 5,
-//     title: 'Production Coordinator, Production Scheduling',
-//     company: 'Novonesis',
-//     location: 'Kalundborg, Denmark',
-//     experience: 'Mid-level',
-//     skills: ['Production Planning', 'Supply Chain Management'],
-//     salary: '$50,000 - $70,000',
-//     type: 'Full-time',
-//     description:
-//       'We are seeking a Production Coordinator to optimize our production scheduling in Kalundborg...',
-//     url: '#',
-//     logo: '/placeholder.svg?height=40&width=40',
-//     tags: ['Manufacturing', 'Logistics', 'Europe'],
-//     postedAt: '13h ago',
-//   },
-// ];
-
 const JobCard: React.FC<{ job: Job }> = React.memo(({ job }) => (
-  <Card className="mb-4">
-    <CardContent className="p-4">
-      <div className="flex items-start">
-        <div className="w-12 h-12 rounded mr-4 bg-emerald-700" />
-        <div className="flex-1">
-          <h2 className="text-xl font-semibold">{job.title}</h2>
-          <p className="text-gray-600">
-            {job.company} • {job.location}
-          </p>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {job?.tags?.map((tag, index) => (
-              <span key={index} className="px-2 py-1 bg-gray-200 text-sm rounded-full">
-                {tag}
-              </span>
-            ))}
+  <Link href={`/jobs/${job.slug}`}>
+    <Card className="mb-4 hover:shadow-md transition-shadow">
+      <CardContent className="p-4">
+        <div className="flex items-start">
+          <div className="w-12 h-12 rounded mr-4 bg-emerald-700" />
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold">{job.title}</h2>
+            <p className="text-gray-600">
+              {job.company} • {job.location}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {job?.tags?.map((tag, index) => (
+                <span key={index} className="px-2 py-1 bg-gray-200 text-sm rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="text-sm text-gray-500 flex items-center whitespace-nowrap">
+            <Clock className="w-4 h-4 mr-1" />
+            {job.dateUpdated
+              ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
+              : 'more than 24 hours ago'}
           </div>
         </div>
-        <div className="text-sm text-gray-500 flex items-center whitespace-nowrap">
-          <Clock className="w-4 h-4 mr-1" />
-          {job.dateUpdated
-            ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
-            : 'more than 24 hours ago'}
-        </div>
-      </div>
-    </CardContent>
-  </Card>
+      </CardContent>
+    </Card>
+  </Link>
 ));
 
 JobCard.displayName = 'JobCard';
@@ -154,7 +75,7 @@ const FilterSidebar: React.FC<{
         <Input
           id="search-term"
           type="text"
-          placeholder="e.g. engineer"
+          placeholder="e.g. Product Manager"
           value={filters.searchTerm}
           onChange={(e) => onFilterChange('searchTerm', e.target.value)}
         />
@@ -306,7 +227,7 @@ export default function JobBoard() {
         setJobs(data);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching jobs:', error);
+        console.error('JobsWithFilter: Error fetching jobs:', error);
       }
     };
 
@@ -324,6 +245,7 @@ export default function JobBoard() {
           {filteredJobs.map((job, index) => (
             <JobCard key={job.title + '-' + index} job={job} />
           ))}
+          {filteredJobs.length === 0 && <div>No jobs available</div>}
         </div>
         <div className="lg:w-1/4">
           <FilterSidebar filters={filters} onFilterChange={handleFilterChange} />
