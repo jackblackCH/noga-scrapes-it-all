@@ -227,7 +227,12 @@ export default function CrawlList({
       </div>
       <div className="crawler">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-semibold mb-3">Job Crawler</h3>
+          {jobListings.length > 0 && (
+            <>
+              <h3 className="text-lg font-semibold mb-3">Job Crawler</h3>
+            </>
+          )}
+
           {Object.values(crawlStates).some((state) => state.jobs) && (
             <span className="text-sm text-muted-foreground">
               (
@@ -269,6 +274,10 @@ export default function CrawlList({
 
               {crawlStates[listing]?.error && (
                 <div className="text-sm text-red-500 mt-2">Error: {crawlStates[listing].error}</div>
+              )}
+
+              {(crawlStates[listing]?.jobs?.length === 0 || !crawlStates[listing]?.jobs) && (
+                <div className="text-sm text-muted-foreground mt-2">Press crawl to find jobs</div>
               )}
 
               {crawlStates[listing]?.jobs && (
