@@ -26,6 +26,8 @@ export default function CrawlList({
   jobsFound?: string | Job[];
 }) {
   const [crawlStates, setCrawlStates] = useState<Record<string, CrawlState>>({});
+  const [addingJobs, setAddingJobs] = useState<Record<string, boolean>>({});
+  const [addedJobs, setAddedJobs] = useState<Record<string, boolean>>({});
   const { toast } = useToast();
 
   const updateCrawlState = (url: string, state: Partial<CrawlState>) => {
@@ -136,6 +138,9 @@ export default function CrawlList({
   };
 
   const handleAddJob = async (job: Job) => {
+    const jobKey = `${job.title}-${job.url}`;
+    setAddingJobs((prev) => ({ ...prev, [jobKey]: true }));
+
     try {
       const response = await fetch('/api/companies/jobs', {
         method: 'POST',
@@ -157,6 +162,10 @@ export default function CrawlList({
 
       create();
 
+      if (result.jobAdded) {
+        setAddedJobs((prev) => ({ ...prev, [jobKey]: true }));
+      }
+
       toast({
         title: result.jobAdded ? 'Success' : 'Note',
         description: result.jobAdded
@@ -171,6 +180,8 @@ export default function CrawlList({
         description: 'Failed to add job',
         variant: 'destructive',
       });
+    } finally {
+      setAddingJobs((prev) => ({ ...prev, [jobKey]: false }));
     }
   };
 
@@ -266,8 +277,18 @@ export default function CrawlList({
                           variant="outline"
                           onClick={() => handleAddJob(job)}
                           className="ml-2"
+                          disabled={
+                            addingJobs[`${job.title}-${job.url}`] ||
+                            addedJobs[`${job.title}-${job.url}`]
+                          }
                         >
-                          Add
+                          {addingJobs[`${job.title}-${job.url}`] ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : addedJobs[`${job.title}-${job.url}`] ? (
+                            'Added'
+                          ) : (
+                            'Add'
+                          )}
                         </Button>
                       </div>
                       <div className="text-muted-foreground break-words">
