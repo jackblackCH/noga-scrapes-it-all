@@ -3,9 +3,7 @@ import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 async function RecentCompanies() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/recent`, {
-    next: { revalidate: 5 }, // Revalidate every 5 minutes
-  });
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/recent`);
   const companies = await response.json();
 
   return (
