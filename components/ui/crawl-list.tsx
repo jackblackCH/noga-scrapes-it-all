@@ -190,6 +190,11 @@ export default function CrawlList({
       <div className="imported">
         <h3 className="text-lg font-semibold mb-3">Database</h3>
         <div className="space-y-3 text-sm">
+          {jobsFound && Array.isArray(jobsFound) && jobsFound.length === 0 && (
+            <div className="border rounded-lg p-4 text-muted-foreground">
+              No jobs found in database
+            </div>
+          )}
           {jobsFound &&
             Array.isArray(jobsFound) &&
             jobsFound.map((job, index) => (
@@ -221,8 +226,8 @@ export default function CrawlList({
         </div>
       </div>
       <div className="crawler">
-        <div className="flex items-center gap-2 mb-4">
-          <h2 className="text-xl font-bold">Job Crawler</h2>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-semibold mb-3">Job Crawler</h3>
           {Object.values(crawlStates).some((state) => state.jobs) && (
             <span className="text-sm text-muted-foreground">
               (
@@ -239,8 +244,8 @@ export default function CrawlList({
         </div>
         <ul className="grid gap-4">
           {jobListings.filter(Boolean).map((listing, index) => (
-            <li key={index} className="border rounded p-4 space-y-4">
-              <div className="grid grid-cols-6 items-center gap-4">
+            <li key={index} className="border rounded-lg p-2">
+              <div className="grid grid-cols-6 items-center gap-2">
                 <a
                   href={listing}
                   target="_blank"
