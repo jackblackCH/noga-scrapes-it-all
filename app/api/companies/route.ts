@@ -36,6 +36,7 @@ export interface TransformedCompany {
   url: string;
   jobsFound: Job[] | string;
   jobsUpdated: string;
+  jobsCount: number;
 }
 
 function transformCompany(company: AirtableFields): TransformedCompany {
@@ -64,6 +65,7 @@ function transformCompany(company: AirtableFields): TransformedCompany {
         })()
       : [],
     jobsUpdated: company.JobsUpdated || '',
+    jobsCount: company.JobsFoundJSON ? JSON.parse(company.JobsFoundJSON || '[]').length : 0,
   };
 }
 
@@ -103,6 +105,7 @@ export async function GET() {
         URL: record.fields.URL,
         JobsFoundJSON: record.fields.JobsFoundJSON,
         JobsUpdated: record.fields.JobsUpdated,
+        JobsCount: record.fields.JobsCount,
       }))
       .map(transformCompany)
       .sort((a, b) => {

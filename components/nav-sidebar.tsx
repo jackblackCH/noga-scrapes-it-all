@@ -18,6 +18,7 @@ import { NavUser } from './nav-user';
 import { Label } from './ui/label';
 import { Switch } from './ui/switch';
 import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
 
 // Define the Company type to match the structure we need
 interface Company {
@@ -27,6 +28,7 @@ interface Company {
   subject: string;
   teaser: string;
   jobsUpdated: string;
+  jobsCount: number;
 }
 
 // Initial sample data
@@ -176,14 +178,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     key={company.slug + index}
                     className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   >
-                    <div className="flex w-full items-center gap-2">
-                      <span>{company.name}</span>{' '}
-                      <span className="ml-auto text-xs">
-                        Last checked:{' '}
-                        {company.jobsUpdated
-                          ? new Date(company.jobsUpdated).toLocaleDateString()
-                          : 'Never'}
-                      </span>
+                    <div className="flex flex-col w-full gap-2">
+                      <div className="flex w-full gap-2 leading-none items-center justify-between">
+                        <span className="font-bold truncate">{company.name}</span>{' '}
+                        <span className="ml-auto text-xs">
+                          Updated:{' '}
+                          {company.jobsUpdated
+                            ? formatDistanceToNow(new Date(company.jobsUpdated), {
+                                addSuffix: false,
+                              })
+                            : 'Never'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span>{company.jobsCount} Jobs</span>
+                      </div>
                     </div>
                   </Link>
                 ))

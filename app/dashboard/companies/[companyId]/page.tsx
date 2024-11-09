@@ -31,6 +31,7 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
       url: company.url,
       jobsFound: company.jobsFound,
       jobsUpdated: company.jobsUpdated,
+      jobsCount: company.jobsCount,
     };
   } catch (error) {
     console.error('Error loading company details:', error);
