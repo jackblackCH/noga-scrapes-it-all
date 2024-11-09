@@ -25,8 +25,8 @@ export default function CrawlList({
   jobsFound?: string | Job[];
 }) {
   const [crawlStates, setCrawlStates] = useState<Record<string, CrawlState>>({});
-
   const { toast } = useToast();
+
   const updateCrawlState = (url: string, state: Partial<CrawlState>) => {
     setCrawlStates((prev) => ({
       ...prev,
