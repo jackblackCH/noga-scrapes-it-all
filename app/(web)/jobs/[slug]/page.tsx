@@ -4,9 +4,7 @@ import { Job } from '@/app/types/job';
 
 async function getJobBySlug(slug: string): Promise<Job | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`, {
-      cache: 'no-store',
-    });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`);
 
     if (!response.ok) return null;
 
