@@ -81,7 +81,7 @@ export async function GET() {
     });
 
     const base = airtable.base('appQ3lzHc7ziRcWeq');
-    const airtableResponse = await base('jobs')
+    const airtableResponse = await base('Companies')
       .select({
         sort: [
           { field: 'Company', direction: 'asc' }, // Secondary sort by company name

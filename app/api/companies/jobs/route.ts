@@ -21,7 +21,7 @@ export async function GET() {
     });
 
     const base = airtable.base('appQ3lzHc7ziRcWeq');
-    const records = await base('jobs').select().all();
+    const records = await base('Companies').select().all();
 
     const allJobs: Job[] = [];
 
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
     const base = airtable.base('appQ3lzHc7ziRcWeq');
 
     // First, find the company record to get existing jobs
-    const records = await base('jobs')
+    const records = await base('Companies')
       .select({
         filterByFormula: `{Slug} = '${companyId}'`,
         maxRecords: 1,
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
     }
 
     // Update the company record with the new jobs array
-    await base('jobs').update([
+    await base('Companies').update([
       {
         id: record.id,
         fields: {

@@ -39,7 +39,7 @@ export async function GET() {
     const airtable = new Airtable({ apiKey });
     const base = airtable.base('appQ3lzHc7ziRcWeq');
 
-    const airtableResponse = await base('jobs')
+    const airtableResponse = await base('Companies')
       .select({
         sort: [{ field: 'JobsUpdated', direction: 'desc' }],
         maxRecords: 10,
