@@ -7,6 +7,7 @@ import { Job } from '@/app/types/job';
 import { parseJobsFromUrlWithMistral } from '@/components/test-runner';
 import { useToast } from '@/hooks/use-toast';
 
+import { create } from '@/app/actions';
 interface CrawlState {
   isLoading: boolean;
   error?: string;
@@ -153,6 +154,8 @@ export default function CrawlList({
       }
 
       const result = await response.json();
+
+      create();
 
       toast({
         title: result.jobAdded ? 'Success' : 'Note',
