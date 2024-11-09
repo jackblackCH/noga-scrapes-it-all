@@ -1,7 +1,6 @@
 import { TransformedCompany } from '@/app/api/companies/route';
 import CrawlList from '@/components/ui/crawl-list';
 import { notFound } from 'next/navigation';
-import { use } from 'react';
 
 export const revalidate = 10;
 
@@ -39,8 +38,8 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
   }
 }
 
-export default function CompanyPage({ params }: { params: { companyId: string } }) {
-  const company = use(getCompanyDetails(params.companyId));
+export default async function CompanyPage({ params }: { params: { companyId: string } }) {
+  const company = await getCompanyDetails(params.companyId);
 
   if (!company) {
     notFound();
