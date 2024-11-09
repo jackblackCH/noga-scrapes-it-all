@@ -18,7 +18,7 @@
 //   }
 // }
 
-export default async function JobPage({ params }: { params: { slug: string } }) {
+export default async function JobPage() {
   return <div>JobPage</div>;
   //   const job = await getJobBySlug(params.slug);
 
