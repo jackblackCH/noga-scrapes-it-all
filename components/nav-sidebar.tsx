@@ -48,9 +48,7 @@ const initialData = {
 };
 
 async function fetchCompanies() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
-    next: { revalidate: 10 }, // Cache for 60 seconds
-  });
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`);
 
   if (!response.ok) {
     throw new Error('Failed to fetch companies');
