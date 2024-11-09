@@ -1,11 +1,11 @@
 import { TransformedCompany } from '@/app/api/companies/route';
 import CrawlList from '@/components/ui/crawl-list';
 import { notFound } from 'next/navigation';
+import { use } from 'react';
+
 async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
-      cache: 'no-store',
-    });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`);
     if (!response.ok) return null;
 
     const companies = (await response.json()) as TransformedCompany[];
@@ -35,8 +35,8 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
   }
 }
 
-export default async function CompanyPage({ params }: { params: { companyId: string } }) {
-  const company = await getCompanyDetails(params.companyId);
+export default function CompanyPage({ params }: { params: { companyId: string } }) {
+  const company = use(getCompanyDetails(params.companyId));
 
   if (!company) {
     notFound();
