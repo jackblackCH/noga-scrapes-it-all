@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import Airtable, { FieldSet, Record } from 'airtable';
 import { Job } from '@/app/types/job';
 
+export const revalidate = 5;
+
 interface AirtableFields extends FieldSet {
   Company?: string;
   Slug?: string;
