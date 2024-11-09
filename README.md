@@ -8,6 +8,7 @@ Working draft on a fully represantion of https://altproteincareers.com/
 
 ## TODO
 
+- Ensure to set Maximum Duration on Vercel to 60 (for long api calls and scraping)
 - Check idealist.org
 - Frontend: Make it look like altproteincareers.com
 - Backend:
