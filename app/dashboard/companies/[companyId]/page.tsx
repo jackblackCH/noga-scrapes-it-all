@@ -7,8 +7,7 @@ export const dynamic = 'force-dynamic';
 async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
-      cache: 'no-store',
-      next: { revalidate: 0 },
+      cache: 'no-store', // use next prop if this does not work
     });
     if (!response.ok) return null;
 

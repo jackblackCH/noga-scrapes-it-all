@@ -177,7 +177,7 @@ export default function CrawlList({
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <div className="imported">
-        <h3 className="text-lg font-semibold mb-3">Existing Jobs in Database</h3>
+        <h3 className="text-lg font-semibold mb-3">Database</h3>
         <div className="space-y-3 text-sm">
           {jobsFound &&
             Array.isArray(jobsFound) &&

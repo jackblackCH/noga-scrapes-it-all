@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     const existingJobs = JSON.parse((record.get('JobsFoundJSON') as string) || '[]') as Job[];
 
     // Add the new job if it doesn't exist already (checking by URL)
-    const jobExists = existingJobs.some((existingJob) => existingJob.url === job.url);
+    const jobExists = existingJobs.some((existingJob) => existingJob.title === job.title);
     if (!jobExists) {
       existingJobs.push(jobWithSlug);
     }
