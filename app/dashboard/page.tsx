@@ -138,9 +138,9 @@ export default function Page() {
           </div>
         </div>
 
-        <Suspense fallback={<div className="rounded-lg border bg-card p-6">Loading...</div>}>
+        {/* <Suspense fallback={<div className="rounded-lg border bg-card p-6">Loading...</div>}>
           <RecentCompanies />
-        </Suspense>
+        </Suspense> */}
       </div>
     </div>
   );
