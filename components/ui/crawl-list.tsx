@@ -119,6 +119,13 @@ export default function CrawlList({
       const jobs = await extractJobs(url, sourceCode, company.trim());
 
       updateCrawlState(url, { isLoading: false, jobs });
+      // Reset the cache for the companies API endpoint
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
     } catch (error) {
       updateCrawlState(url, {
         isLoading: false,

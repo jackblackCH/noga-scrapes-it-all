@@ -2,12 +2,10 @@ import { TransformedCompany } from '@/app/api/companies/route';
 import CrawlList from '@/components/ui/crawl-list';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 10;
-
 async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
-      cache: 'no-store',
+      next: { revalidate: 10 },
     });
     if (!response.ok) return null;
 
