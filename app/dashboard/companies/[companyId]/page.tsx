@@ -8,7 +8,6 @@ export const revalidate = 10;
 async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
-      next: { tags: ['companies'] },
       cache: 'no-store',
     });
     if (!response.ok) return null;
