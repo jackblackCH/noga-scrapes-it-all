@@ -3,6 +3,6 @@
 import { revalidatePath } from 'next/cache';
 
 export async function create() {
-  // revalidatePath('/');
+  revalidatePath('/');
   revalidatePath('/dashboard/companies/[companyId]', 'page');
 }
