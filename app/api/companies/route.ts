@@ -14,6 +14,7 @@ interface AirtableFields extends FieldSet {
   JBoard?: string;
   JobListing1?: string;
   JobListing2?: string;
+  JobListingLinkedIn?: string;
   Status?: string;
   Issue?: string;
   Notes?: string;
@@ -30,11 +31,12 @@ export interface TransformedCompany {
   jboard: string;
   jobListing1: string;
   jobListing2: string;
+  jobListingLinkedIn: string;
   status: string;
   issue: string;
   notes: string;
   url: string;
-  jobsFound: Job[] | string;
+  jobsFound: Job[];
   jobsUpdated: string;
   jobsCount: number;
 }
@@ -50,6 +52,7 @@ function transformCompany(company: AirtableFields): TransformedCompany {
     jboard: company.JBoard || '',
     jobListing1: company.JobListing1 || '',
     jobListing2: company.JobListing2 || '',
+    jobListingLinkedIn: company.JobListingLinkedIn || '',
     status: company.Status || '',
     issue: company.Issue || '',
     notes: company.Notes || '',
@@ -99,6 +102,7 @@ export async function GET() {
         JBoard: record.fields.JBoard,
         JobListing1: record.fields.JobListing1,
         JobListing2: record.fields.JobListing2,
+        JobListingLinkedIn: record.fields.JobListingLinkedIn,
         Status: record.fields.Status,
         Issue: record.fields.Issue,
         Notes: record.fields.Notes,

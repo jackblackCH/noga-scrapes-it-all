@@ -1,5 +1,5 @@
 export interface Job {
-  title: string | null;
+  title: string;
   company: string | null;
   location: string | null;
   experience: string | null;
@@ -7,7 +7,7 @@ export interface Job {
   salary: string | null;
   type: string | null;
   description: string | null;
-  url: string | null;
+  url: string;
   jobsUpdated: string | null;
   dateUpdated: string | null;
   tags: string[] | null;
