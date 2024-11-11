@@ -30,6 +30,7 @@ interface Company {
   teaser: string;
   jobsUpdated: string;
   jobsCount: number;
+  jobListingLinkedIn?: string;
 }
 
 // Initial sample data
@@ -67,6 +68,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [companies, setCompanies] = React.useState<Company[]>(initialData.companies);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
+  const [showLinkedInOnly, setShowLinkedInOnly] = React.useState(false);
+  const [showRecentlyUpdated, setShowRecentlyUpdated] = React.useState(false);
   const { setOpen } = useSidebar();
   const pathname = usePathname();
 
@@ -87,10 +90,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }, []);
 
   const filteredCompanies = React.useMemo(() => {
-    return companies.filter((company) =>
-      company.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [companies, searchQuery]);
+    return companies.filter((company) => {
+      const matchesSearch = company.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesLinkedIn = !showLinkedInOnly || Boolean(company.jobListingLinkedIn);
+      const matchesRecent =
+        !showRecentlyUpdated ||
+        (company.jobsUpdated &&
+          new Date(company.jobsUpdated) >= new Date(Date.now() - 24 * 60 * 60 * 1000)); // Within last 24 hours
+
+      return matchesSearch && matchesLinkedIn && matchesRecent;
+    });
+  }, [companies, searchQuery, showLinkedInOnly, showRecentlyUpdated]);
 
   return (
     <Sidebar collapsible="icon" className="[&>[data-sidebar=sidebar]]:flex-row" {...props}>
@@ -155,16 +165,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
             <div className="text-base font-medium text-foreground">{activeItem.title}</div>
-            <Label className="flex items-center gap-2 text-sm">
-              <span>Updated</span>
-              <Switch className="shadow-none" />
-            </Label>
           </div>
           <SidebarInput
             placeholder="Type to search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <div className="flex flex-col gap-2">
+            <Label className="flex items-center gap-2 text-sm">
+              <Switch
+                className="shadow-none"
+                checked={showLinkedInOnly}
+                onCheckedChange={setShowLinkedInOnly}
+              />
+              <span>LinkedIn Jobs</span>
+            </Label>
+            <Label className="flex items-center gap-2 text-sm">
+              <Switch
+                className="shadow-none"
+                checked={showRecentlyUpdated}
+                onCheckedChange={setShowRecentlyUpdated}
+              />
+              <span>Updated in last 24h</span>
+            </Label>
+          </div>
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup className="px-0 pt-0">
@@ -181,7 +205,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       href={`/dashboard/companies/${company.slug}`}
                       key={company.slug + index}
                       className={`flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                        isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
+                        isActive ? 'bg-primary text-white hover:bg-primary/95 hover:text-white' : ''
                       }`}
                     >
                       <div className="flex flex-col w-full gap-2">
@@ -197,7 +221,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span>{company.jobsCount} Jobs</span>
+                          <span>
+                            {company.jobsCount} {company.jobsCount === 1 ? 'Job' : 'Jobs'}
+                          </span>
                         </div>
                       </div>
                     </Link>

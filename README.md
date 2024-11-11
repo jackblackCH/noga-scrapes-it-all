@@ -2,8 +2,9 @@
 
 Working draft on a fully representation of https://altproteincareers.com/
 
-## Test Cases for LinkedIn
+## Test Cases Not working
 
+- The Hershey Company: Huge list.
 - Coperion: Rate Limiter LinkedIn
 
 ## TODO
