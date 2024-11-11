@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation';
 import { formatDistanceToNow } from 'date-fns';
 import { Job } from '@/app/types/job';
 
