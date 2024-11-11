@@ -40,6 +40,28 @@ function JobCrawler({
   const [addedJobs, setAddedJobs] = useState<{ [key: string]: boolean }>({});
   const { toast } = useToast();
 
+  const parseWithJina = async (url: string) => {
+    try {
+      const response = await fetch(`/api/scrape/scrape-jina?url=${url}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      // console.log('Jina data:', data);
+      return data;
+    } catch (error) {
+      console.error('Failed to fetch from Jina:', error);
+      throw new Error('Failed to fetch data from Jina API');
+    }
+  };
+
+  const parseWithScraperApi = async (url: string) => {
+    const response = await fetch(`/api/scrape/scraperapi?url=${url}`);
+    const data = await response.json();
+    // console.log('ScraperAPI data:', data.data);
+    return data.data;
+  };
+
   const handleCrawl = async () => {
     setCrawlState({
       isLoading: true,
@@ -47,26 +69,41 @@ function JobCrawler({
       jobs: undefined,
     });
 
-    try {
-      const response = await fetch(
-        `/api/scrape/scrape-jina?url=${encodeURIComponent(jobListing)}`,
-        {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+    const isLinkedIn = jobListing.includes('linkedin.com');
+    let hasEntries = false;
+    let response;
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch jobs');
+    if (isLinkedIn) {
+      // console.log('Scraping LinkedIn');
+      response = await parseWithScraperApi(jobListing);
+      if (response.length > 0) {
+        hasEntries = true;
       }
+    } else {
+      // console.log('Scraping Jina');
+      response = await parseWithJina(jobListing);
+      if (response.sourceCode.length > 0) {
+        hasEntries = true;
+        response = response.sourceCode;
+      }
+    }
 
-      const { sourceCode } = await response.json();
-      const jobs = await parseJobsFromUrlWithMistral(jobListing, sourceCode, company);
-
-      setCrawlState({
-        isLoading: false,
-        jobs: jobs,
-      });
+    try {
+      if (hasEntries) {
+        const sourceCodeString = response;
+        // console.log('stripped source code', sourceCodeString);
+        const jobs = await parseJobsFromUrlWithMistral(jobListing, sourceCodeString, company);
+        // console.log('jobs', jobs);
+        setCrawlState({
+          isLoading: false,
+          jobs: jobs,
+        });
+      } else {
+        setCrawlState({
+          isLoading: false,
+          error: 'No jobs found',
+        });
+      }
     } catch (error) {
       setCrawlState({
         isLoading: false,

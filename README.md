@@ -2,13 +2,33 @@
 
 Working draft on a fully representation of https://altproteincareers.com/
 
+## Test Cases with a lot of jobs, working
+
+- Pulmuone Foods USA, Inc.
+- Sabra Dipping Company
+
 ## Test Cases Not working
 
 - The Hershey Company: Huge list.
 - Coperion: Rate Limiter LinkedIn
 
+## Difficulties (Source code too big)
+
+- Amy's Kitchen (too many tokens)
+- Coperion (too many tokens)
+- GEA (too many tokens)
+
+## Companies not on LinkedIn anymore
+
+- New School Foods
+- Bond Pet Foods
+
 ## TODO
 
+- revalidate sidebar
+- @Noga: Question how often should jobs be parsed?
+- Harmless Harvest: Adding jobs is not unique when title is the same. e.g 3 different project managers from different cities.
+- Mooji Meats: Jobs with same title cannot be added.
 - Ensure to set Maximum Duration on Vercel to 60 (for long API calls and scraping)
 - Check idealist.org
 - Frontend: Make it look like altproteincareers.com
@@ -31,16 +51,21 @@ Test LinkedIn Urls:
 
 ### Services is evaluation
 
+1. https://app.getapihub.cloud/billing?billing=true super fast. Entry is 30$ per month, Basic 120$
 1. Apify: https://console.apify.com/actors/BHzefUZlZRKWxkTck/integrations
-2. Jina AI Markdown Parser: Free API endpoint: https://r.jina.ai/https://missionbarns.com/careers/
+1. Jina AI Markdown Parser: Free API endpoint: https://r.jina.ai/https://missionbarns.com/careers/
 
 ### Services to Evaluate
 
 1. https://github.com/apify/crawlee
 2. Sraperapi.com: 49$/m 100'000 Credits, 20 concurrent threads, 30 credits per request.
-3. ScrapingBee
-4. ZenRows Browser
+
+3. ZenRows Browser
    - URL: https://app.zenrows.com/scraping-browser
+
+### Sucks harder than hard
+
+- ScrapingBee
 
 ## Nice but wrong technology
 

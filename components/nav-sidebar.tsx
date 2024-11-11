@@ -205,7 +205,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       href={`/dashboard/companies/${company.slug}`}
                       key={company.slug + index}
                       className={`flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                        isActive ? 'bg-primary text-white hover:bg-primary/95 hover:text-white' : ''
+                        isActive
+                          ? 'bg-primary text-white hover:!bg-primary/95 hover:text-white'
+                          : ''
                       }`}
                     >
                       <div className="flex flex-col w-full gap-2">

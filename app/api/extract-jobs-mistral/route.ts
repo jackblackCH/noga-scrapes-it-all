@@ -71,7 +71,7 @@ class JobExtractor {
           },
         ],
         temperature: 0.1,
-        maxTokens: 4000,
+        maxTokens: 5000,
         responseFormat: { type: 'json_object' },
       });
 
