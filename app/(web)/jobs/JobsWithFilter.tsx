@@ -219,7 +219,9 @@ export default function JobBoard() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch('/api/companies/jobs');
+        const response = await fetch('/api/companies/jobs', {
+          cache: 'no-cache',
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch jobs');
         }
