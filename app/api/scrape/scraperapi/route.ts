@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(`https://api.scraperapi.com/?${params}`);
     const data = await response.text();
 
-    // Extract job list container using DOM
+    // Extract job list using DOM
     const dom = new JSDOM(data);
     const jobListContainer = dom.window.document.querySelector('.jobs-search__results-list');
     const jobListHtml = jobListContainer ? jobListContainer.innerHTML : '';

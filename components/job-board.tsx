@@ -73,7 +73,7 @@ const jobsData = [
 
 function JobList() {
   return (
-    <section className="container mx-auto px-4">
+    <section className="max-w-6xl mx-auto px-4">
       <h2 className="text-2xl font-bold mb-2">Latest Jobs</h2>
       <div className="space-y-4 pb-8">
         {jobsData.map((job) => (
@@ -132,7 +132,7 @@ export function JobBoard() {
             />
             <div className="absolute inset-0 bg-black/20" />
           </div>
-          <div className="container mx-auto relative px-4 py-16 text-center">
+          <div className="max-w-6xl mx-auto relative px-4 py-16 text-center">
             <h1 className="text-4xl font-bold md:text-4xl text-white">
               Do something that matters.
             </h1>
@@ -164,7 +164,7 @@ export function JobBoard() {
             </div>
           </div>
         </section>
-        <section className="container mx-auto px-4 py-12">
+        <section className="max-w-6xl mx-auto px-4 py-12">
           <div className="relative">
             <div className="flex gap-4 overflow-hidden">
               <Button

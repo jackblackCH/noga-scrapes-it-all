@@ -10,7 +10,7 @@ export default function WebLayout({
     <>
       <Header />
       <main className="bg-[#fffdf7] min-h-screen">
-        <div className="p-4 mx-auto xl:container">{children}</div>
+        <div className="p-4 mx-auto max-w-6xl">{children}</div>
       </main>
       <Footer />
     </>
