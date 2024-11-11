@@ -5,12 +5,16 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarGroupContent,
+  SidebarGroup,
+  SidebarContent,
 } from '@/components/ui/sidebar';
 import { Command, Building } from 'lucide-react';
 import React from 'react';
 import { NavUser } from './nav-user';
 import Link from 'next/link';
 import { CompanyList } from './nav-sidebar/company-list';
+import SidebarItem from './nav-sidebar/item';
 
 const initialData = {
   user: {
@@ -66,6 +70,20 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
+
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent className="px-1.5 md:px-0 ">
+              <SidebarMenu>
+                {initialData.navMain.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarItem title={item.title} icon={<item.icon />} isActive={item.isActive} />
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
         <SidebarFooter>
           <NavUser user={initialData.user} />
         </SidebarFooter>
