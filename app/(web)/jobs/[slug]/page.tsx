@@ -10,6 +10,7 @@ async function getJobBySlug(slug: string): Promise<Job | null> {
     if (!response.ok) return null;
 
     const jobs = (await response.json()) as Job[];
+    console.log('getJobBySlug jobs', jobs);
 
     return jobs.find((job) => job.slug === slug) || null;
   } catch (error) {
