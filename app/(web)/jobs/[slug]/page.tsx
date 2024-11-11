@@ -5,7 +5,9 @@ export const dynamic = 'force-dynamic';
 
 async function getJobBySlug(slug: string): Promise<Job | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`, {
+      cache: 'no-cache',
+    });
 
     if (!response.ok) return null;
 
