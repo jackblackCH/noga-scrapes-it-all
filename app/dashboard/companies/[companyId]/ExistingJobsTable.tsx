@@ -67,36 +67,48 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
   };
 
   return (
-    <Table>
+    <Table className="border border-gray-200 rounded-lg overflow-hidden shadow-sm">
       <TableHeader>
-        <TableRow>
-          <TableHead>Title</TableHead>
-          <TableHead>Location</TableHead>
-          <TableHead>Last Updated</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+        <TableRow className="bg-gray-50">
+          <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900">Title</TableHead>
+          <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900">Location</TableHead>
+          <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900">
+            Last Updated
+          </TableHead>
+          <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900 text-right">
+            Actions
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {jobs?.map((job, index) => (
-          <TableRow key={job.title + index}>
-            <TableCell>
+          <TableRow
+            key={job.title + index}
+            className="hover:bg-gray-50 transition-colors border-t border-gray-200"
+          >
+            <TableCell className="py-4 px-6">
               <a
                 href={job.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 flex items-center gap-1"
+                className="text-primary hover:text-primary/80 flex items-center gap-2 font-medium"
               >
                 {job.title}
-                <ExternalLink className="h-4 w-4" />
+                <ExternalLink className="h-4 w-4 opacity-70" />
               </a>
             </TableCell>
-            <TableCell>{job.location}</TableCell>
-            <TableCell>{formatDate(job.dateUpdated)}</TableCell>
-            <TableCell className="text-right">
+            <TableCell className="py-4 px-6 text-gray-600">
+              <span className="inline-flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                {job.location}
+              </span>
+            </TableCell>
+            <TableCell className="py-4 px-6 text-gray-600">{formatDate(job.dateUpdated)}</TableCell>
+            <TableCell className="py-4 px-6 text-right">
               <Button
                 variant="outline"
                 size="sm"
-                className="text-red-500 hover:text-red-700"
+                className="bg-white border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors rounded-full px-4"
                 onClick={() => handleDelete(job.title)}
                 disabled={deletingJobs[job.title]}
               >
@@ -107,8 +119,11 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
         ))}
         {(!jobs || jobs.length === 0) && (
           <TableRow>
-            <TableCell colSpan={4} className="text-gray-500">
-              No jobs found
+            <TableCell colSpan={4} className="py-8 text-center text-gray-500 bg-gray-50">
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-2xl">📋</span>
+                <span>No jobs found</span>
+              </div>
             </TableCell>
           </TableRow>
         )}

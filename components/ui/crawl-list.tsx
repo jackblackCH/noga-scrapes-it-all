@@ -46,7 +46,6 @@ function JobCrawler({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      // console.log('Jina data:', data);
       return data;
     } catch (error) {
       console.error('Failed to fetch from Jina:', error);
@@ -57,7 +56,6 @@ function JobCrawler({
   const parseWithScraperApi = async (url: string) => {
     const response = await fetch(`/api/scrape/scraperapi?url=${url}`);
     const data = await response.json();
-    // console.log('ScraperAPI data:', data.data);
     return data.data;
   };
 
@@ -73,13 +71,11 @@ function JobCrawler({
     let response;
 
     if (isLinkedIn) {
-      // console.log('Scraping LinkedIn');
       response = await parseWithScraperApi(jobListing);
       if (response.length > 0) {
         hasEntries = true;
       }
     } else {
-      // console.log('Scraping Jina');
       response = await parseWithJina(jobListing);
       if (response.sourceCode.length > 0) {
         hasEntries = true;
@@ -90,9 +86,7 @@ function JobCrawler({
     try {
       if (hasEntries) {
         const sourceCodeString = response;
-        // console.log('stripped source code', sourceCodeString);
         const jobs = await parseJobsFromUrlWithMistral(jobListing, sourceCodeString, company);
-        // console.log('jobs', jobs);
         setCrawlState({
           isLoading: false,
           jobs: jobs,
@@ -158,31 +152,45 @@ function JobCrawler({
 
   return (
     <>
-      <TableRow>
+      <TableRow className="transition-colors hover:bg-slate-50">
         <TableCell className="max-w-[400px]">
           <a
             href={jobListing}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary hover:text-primary/80 hover:underline block truncate"
+            className="text-emerald-600 hover:text-emerald-700 hover:underline block truncate"
           >
             {jobListing}
           </a>
         </TableCell>
         <TableCell>
-          {crawlState.error && <span className="text-red-500">Error: {crawlState.error}</span>}
-          {crawlState.isLoading && <span className="text-yellow-500">Loading...</span>}
+          {crawlState.error && (
+            <span className="text-rose-500 font-medium">Error: {crawlState.error}</span>
+          )}
+          {crawlState.isLoading && <span className="text-amber-500 font-medium">Loading...</span>}
           {crawlState.jobs && (
-            <span className="text-green-500">Found {crawlState.jobs.length} jobs</span>
+            <span className="text-emerald-600 font-medium">
+              Found {crawlState.jobs.length} jobs
+            </span>
           )}
         </TableCell>
         <TableCell className="text-right">
           <div className="flex gap-2 justify-end">
-            <Button size="sm" onClick={handleCrawl} disabled={crawlState.isLoading}>
+            <Button
+              size="sm"
+              onClick={handleCrawl}
+              disabled={crawlState.isLoading}
+              className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white"
+            >
               {crawlState.isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Crawl'}
             </Button>
             {crawlState.jobs && (
-              <Button size="sm" variant="outline" onClick={handleAddAllJobs}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleAddAllJobs}
+                className="rounded-full border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+              >
                 Add All Jobs
               </Button>
             )}
@@ -191,21 +199,26 @@ function JobCrawler({
       </TableRow>
       {crawlState.jobs && (
         <TableRow>
-          <TableCell colSpan={3}>
-            <div className="space-y-2">
+          <TableCell colSpan={3} className="bg-slate-50/50">
+            <div className="space-y-2 p-2">
               {crawlState.jobs.map((job, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between bg-gray-50 p-2 rounded"
+                  className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-indigo-200 transition-colors"
                 >
                   <div>
-                    <div className="font-medium">{job.title}</div>
-                    <div className="text-sm text-gray-500">{job.location}</div>
+                    <div className="font-medium text-slate-900">{job.title}</div>
+                    <div className="text-sm text-slate-600">{job.location}</div>
                   </div>
                   <Button
                     size="sm"
                     onClick={() => handleAddJob(job)}
                     disabled={addingJobs[job.title] || addedJobs[job.title]}
+                    className={`${
+                      addedJobs[job.title]
+                        ? 'rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                        : 'rounded-full bg-emerald-600 hover:bg-emerald-700 text-white'
+                    }`}
                   >
                     {addingJobs[job.title] ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -235,12 +248,16 @@ export default function CrawlList({
   companySlug: string;
 }) {
   return (
-    <Table className="w-full">
+    <Table className="border border-slate-200 rounded-lg overflow-hidden shadow-sm bg-white">
       <TableHeader>
-        <TableRow>
-          <TableHead>Job Listing URL</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+        <TableRow className="bg-slate-50 border-b border-slate-200">
+          <TableHead className="py-4 px-6 text-sm font-semibold text-slate-700">
+            Job Listing URL
+          </TableHead>
+          <TableHead className="py-4 px-6 text-sm font-semibold text-slate-700">Status</TableHead>
+          <TableHead className="py-4 px-6 text-sm font-semibold text-slate-700 text-right">
+            Actions
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

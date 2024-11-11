@@ -77,7 +77,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
               <SidebarMenu>
                 {initialData.navMain.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarItem title={item.title} icon={<item.icon />} isActive={item.isActive} />
+                    <SidebarItem title={item.title} icon={<item.icon />} />
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
