@@ -234,11 +234,11 @@ export function PostJobFormComponent() {
 
                   <p className="text-sm text-gray-600">
                     This site is protected by reCAPTCHA and the Google{' '}
-                    <a href="#" className="text-blue-600 hover:underline">
+                    <a href="#" className="text-primary hover:text-primary/80 hover:underline">
                       Privacy Policy
                     </a>{' '}
                     and{' '}
-                    <a href="#" className="text-blue-600 hover:underline">
+                    <a href="#" className="text-primary hover:text-primary/80 hover:underline">
                       Terms of Service
                     </a>{' '}
                     apply.

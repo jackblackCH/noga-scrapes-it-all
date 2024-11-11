@@ -177,7 +177,7 @@ export default function TestRunner() {
                         {job.skills.map((skill, i) => (
                           <span
                             key={i}
-                            className="px-2 py-1 text-sm bg-blue-100 text-blue-800 rounded-full"
+                            className="px-2 py-1 text-sm bg-blue-100 text-primary hover:text-primary/80 rounded-full"
                           >
                             {skill}
                           </span>

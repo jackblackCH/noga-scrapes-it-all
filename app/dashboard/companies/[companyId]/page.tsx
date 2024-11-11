@@ -89,7 +89,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
                     href={company.jboard}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
+                    className="text-primary hover:text-primary/80 hover:underline"
                   >
                     {new URL(company.jboard).hostname}
                   </a>
@@ -106,7 +106,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
                     href={company.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
+                    className="text-primary hover:text-primary/80 hover:underline"
                   >
                     Visit website
                   </a>

@@ -21,7 +21,7 @@ export default function Europe() {
         If your company is hiring, connect with us to see how we can help.
       </p>
       <div className="text-center">
-        <Link href="/jobs?location=Europe" className="text-blue-500">
+        <Link href="/jobs?location=Europe" className="text-primary hover:text-primary/80">
           Search all Europe-based jobs🌍
         </Link>
       </div>
@@ -46,7 +46,7 @@ export default function Europe() {
       </p>
 
       <p>
-        <Link href="/jobs?location=Europe" className="text-blue-500">
+        <Link href="/jobs?location=Europe" className="text-primary hover:text-primary/80">
           Search all Europe-based jobs🌍
         </Link>
         , or search jobs by city or country, such as: Berlin London Paris Amsterdam Wageningen

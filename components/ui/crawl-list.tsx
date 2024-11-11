@@ -164,7 +164,7 @@ function JobCrawler({
             href={jobListing}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-500 hover:underline block truncate"
+            className="text-primary hover:text-primary/80 hover:underline block truncate"
           >
             {jobListing}
           </a>

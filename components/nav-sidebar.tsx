@@ -88,8 +88,8 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
           <NavUser user={initialData.user} />
         </SidebarFooter>
       </Sidebar>
-      {/* @ts-expect-error Async Server Component */}
-      <CompanyList companies={companies} pathname={props.pathname} />
+
+      <CompanyList companies={companies} />
     </Sidebar>
   );
 }

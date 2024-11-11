@@ -1,12 +1,16 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { SidebarMenuButton } from '../ui/sidebar';
 
 export interface SidebarItem {
   title: string;
   icon: React.ReactNode;
-  isActive?: boolean;
 }
 
-export default function SidebarItem({ title, icon, isActive }: SidebarItem) {
+export default function SidebarItem({ title, icon }: SidebarItem) {
+  const pathname = usePathname();
+  const isActive = pathname.includes(title.toLowerCase());
   return (
     <div>
       <SidebarMenuButton

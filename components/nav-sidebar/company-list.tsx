@@ -12,14 +12,10 @@ import {
 } from '@/components/ui/sidebar';
 import { FiltersSection } from './filters-section';
 import { TransformedCompany } from '@/app/api/companies/route';
+import { usePathname } from 'next/navigation';
 
-export function CompanyList({
-  companies,
-  pathname,
-}: {
-  companies: TransformedCompany[];
-  pathname: string;
-}) {
+export function CompanyList({ companies }: { companies: TransformedCompany[] }) {
+  const pathname = usePathname();
   const [searchQuery, setSearchQuery] = React.useState('');
   const [showLinkedInOnly, setShowLinkedInOnly] = React.useState(false);
   const [showRecentlyUpdated, setShowRecentlyUpdated] = React.useState(false);

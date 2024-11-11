@@ -36,7 +36,7 @@ async function MarkdownContent({ url }: { url: string }) {
           <blockquote className="border-l-4 border-gray-200 pl-4 my-4 italic" {...props} />
         ),
         a: ({ ...props }) => (
-          <a className="text-blue-600 hover:text-blue-800 underline" {...props} />
+          <a className="text-primary hover:text-primary/80 underline" {...props} />
         ),
       }}
     >

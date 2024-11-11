@@ -84,7 +84,7 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
                 href={job.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-700 flex items-center gap-1"
+                className="text-primary hover:text-primary/80 flex items-center gap-1"
               >
                 {job.title}
                 <ExternalLink className="h-4 w-4" />
