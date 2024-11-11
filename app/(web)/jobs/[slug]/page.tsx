@@ -21,9 +21,9 @@ async function getJobBySlug(slug: string): Promise<Job | null> {
 
 export default async function JobPage({ params }: { params: { slug: string } }) {
   const job = await getJobBySlug(params.slug);
-
+  console.log('job', job);
   if (!job) {
-    notFound();
+    return <div>Job not found</div>;
   }
 
   return (
