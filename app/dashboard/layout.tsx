@@ -1,6 +1,6 @@
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/nav-sidebar';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -44,7 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <Suspense fallback={<div className="p-4">Loading...</div>}>{children}</Suspense>
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
       </SidebarInset>
     </SidebarProvider>
   );

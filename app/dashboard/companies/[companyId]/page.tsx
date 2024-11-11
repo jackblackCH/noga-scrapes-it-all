@@ -6,9 +6,7 @@ export const dynamic = 'force-dynamic';
 
 async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
-      cache: 'no-store', // use next prop if this does not work
-    });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`); // if page chang is slow on click. Add no cache here.
     if (!response.ok) return null;
 
     const companies = (await response.json()) as TransformedCompany[];

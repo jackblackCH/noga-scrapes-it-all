@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button';
 import { Job } from '@/app/types/job';
 import { format } from 'date-fns/format';
 import { ExternalLink, Loader2 } from 'lucide-react';
+import { deleteJob } from '@/app/actions';
+import { toast } from 'sonner';
 
 export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] | undefined }) {
   const [jobs, setJobs] = useState(initialJobs);
@@ -41,6 +43,15 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
 
       // Update the local state instead of reloading
       setJobs((currentJobs) => currentJobs?.filter((job) => job.title !== jobTitle));
+      deleteJob();
+
+      toast('Success', {
+        description: () => (
+          <>
+            Job <b>{jobTitle}</b> deleted successfully
+          </>
+        ),
+      });
     } catch (error) {
       console.error('Error deleting job:', error);
     } finally {

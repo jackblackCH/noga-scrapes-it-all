@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { Button } from './button';
 import { Job } from '@/app/types/job';
 import { parseJobsFromUrlWithMistral } from '@/components/test-runner';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { create } from '@/app/actions';
 import {
   Table,
@@ -38,7 +38,6 @@ function JobCrawler({
   });
   const [addingJobs, setAddingJobs] = useState<{ [key: string]: boolean }>({});
   const [addedJobs, setAddedJobs] = useState<{ [key: string]: boolean }>({});
-  const { toast } = useToast();
 
   const parseWithJina = async (url: string) => {
     try {
@@ -137,16 +136,12 @@ function JobCrawler({
         setAddedJobs((prev) => ({ ...prev, [job.title]: true }));
       }
 
-      toast({
-        title: result.jobAdded ? 'Success' : 'Note',
+      toast(result.jobAdded ? 'Success' : 'Note', {
         description: result.jobAdded ? 'Job added successfully' : 'Job already exists',
-        variant: result.jobAdded ? 'default' : 'destructive',
       });
     } catch (error) {
-      toast({
-        title: 'Error',
+      toast('Error', {
         description: error instanceof Error ? error.message : 'Failed to add job',
-        variant: 'destructive',
       });
     } finally {
       setAddingJobs((prev) => ({ ...prev, [job.title]: false }));
