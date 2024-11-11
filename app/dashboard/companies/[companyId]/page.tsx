@@ -46,7 +46,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
   }
 
   return (
-    <main className="max-w-6xl mx-auto p-6">
+    <main className="p-4">
       <header className="mb-4">
         <h1 className="text-3xl font-bold">{company.name}</h1>
       </header>
