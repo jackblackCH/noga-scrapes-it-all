@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { formatDistanceToNow } from 'date-fns';
 import { Job } from '@/app/types/job';
 
+export const dynamic = 'force-dynamic';
+
 async function getJobBySlug(slug: string): Promise<Job | null> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`);
@@ -9,6 +11,7 @@ async function getJobBySlug(slug: string): Promise<Job | null> {
     if (!response.ok) return null;
 
     const jobs = (await response.json()) as Job[];
+
     return jobs.find((job) => job.slug === slug) || null;
   } catch (error) {
     console.error('Error fetching job:', error);
