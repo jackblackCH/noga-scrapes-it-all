@@ -21,6 +21,7 @@ interface AirtableFields extends FieldSet {
   URL?: string;
   JobsFoundJSON?: string;
   JobsUpdated?: string;
+  Logo?: Airtable.Attachment[];
 }
 
 export interface TransformedCompany {
@@ -39,6 +40,7 @@ export interface TransformedCompany {
   jobsFound: Job[];
   jobsUpdated: string;
   jobsCount: number;
+  logo: Airtable.Attachment | null;
 }
 
 function transformCompany(company: AirtableFields): TransformedCompany {
@@ -69,6 +71,7 @@ function transformCompany(company: AirtableFields): TransformedCompany {
       : [],
     jobsUpdated: company.JobsUpdated || '',
     jobsCount: company.JobsFoundJSON ? JSON.parse(company.JobsFoundJSON || '[]').length : 0,
+    logo: company.Logo ? company.Logo[0] : null,
   };
 }
 
@@ -110,6 +113,7 @@ export async function GET() {
         JobsFoundJSON: record.fields.JobsFoundJSON,
         JobsUpdated: record.fields.JobsUpdated,
         JobsCount: record.fields.JobsCount,
+        Logo: record.fields.Logo,
       }))
       .map(transformCompany)
       .sort((a, b) => {

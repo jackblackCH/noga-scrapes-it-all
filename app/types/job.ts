@@ -1,6 +1,8 @@
 export interface Job {
   title: string;
-  company: string | null;
+  company: string;
+  companyLogoUrl: string | null;
+  companySlug: string;
   location: string | null;
   experience: string | null;
   skills: string[] | null;
@@ -11,7 +13,7 @@ export interface Job {
   jobsUpdated: string | null;
   dateUpdated: string | null;
   tags: string[] | null;
-  slug: string | null;
+  slug: string;
 }
 
 export interface JobExtractionResult {

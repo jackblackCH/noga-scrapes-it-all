@@ -5,6 +5,7 @@ import slugify from 'slugify';
 
 interface AddJobRequest {
   companyId: string;
+  company: string;
   job: Job;
   dateUpdated: string;
 }
@@ -27,10 +28,18 @@ export async function GET() {
 
     records.forEach((record) => {
       const jobsFoundJSON = record.get('JobsFoundJSON') as string;
+      const companyLogo = record.get('Logo') as Airtable.Attachment[];
+
       if (jobsFoundJSON) {
         try {
           const jobs = JSON.parse(jobsFoundJSON.trim()) as Job[];
-          allJobs.push(...jobs);
+          const jobsWithLogo = jobs.map((job) => ({
+            ...job,
+            company: record.get('Company') as string,
+            companyLogoUrl: companyLogo && companyLogo[0] ? companyLogo[0].url : '',
+            companySlug: record.get('Slug') as string,
+          }));
+          allJobs.push(...jobsWithLogo);
         } catch (error) {
           console.error(
             `api/companies/jobs/route.ts: Error parsing jobs JSON: ${record.get(

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ScanSearch } from 'lucide-react';
 import { Button } from './button';
 import { Job } from '@/app/types/job';
 import { parseJobsFromUrlWithMistral } from '@/components/test-runner';
@@ -152,8 +152,8 @@ function JobCrawler({
 
   return (
     <>
-      <TableRow className="transition-colors hover:bg-slate-50">
-        <TableCell className="max-w-[400px]">
+      <TableRow className="transition-colors bg-slate-50/50 hover:bg-slate-50">
+        <TableCell className="max-w-[400px] py-4 px-6">
           <a
             href={jobListing}
             target="_blank"
@@ -163,7 +163,7 @@ function JobCrawler({
             {jobListing}
           </a>
         </TableCell>
-        <TableCell>
+        <TableCell className="py-4 px-6">
           {crawlState.error && (
             <span className="text-rose-500 font-medium">Error: {crawlState.error}</span>
           )}
@@ -174,7 +174,7 @@ function JobCrawler({
             </span>
           )}
         </TableCell>
-        <TableCell className="text-right">
+        <TableCell className="text-right py-4 px-6">
           <div className="flex gap-2 justify-end">
             <Button
               size="sm"
@@ -199,7 +199,7 @@ function JobCrawler({
       </TableRow>
       {crawlState.jobs && (
         <TableRow>
-          <TableCell colSpan={3} className="bg-slate-50/50">
+          <TableCell colSpan={3} className="py-8 text-center text-gray-500 bg-gray-50">
             <div className="space-y-2 p-2">
               {crawlState.jobs.map((job, index) => (
                 <div
@@ -261,14 +261,25 @@ export default function CrawlList({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {jobListings.map((listing, index) => (
-          <JobCrawler
-            key={index}
-            jobListing={listing}
-            company={company}
-            companySlug={companySlug}
-          />
-        ))}
+        {jobListings.length > 0 ? (
+          jobListings.map((listing, index) => (
+            <JobCrawler
+              key={index}
+              jobListing={listing}
+              company={company}
+              companySlug={companySlug}
+            />
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={4} className="py-8 text-center text-gray-500 bg-gray-50">
+              <div className="flex flex-col items-center gap-2">
+                <ScanSearch className="h-8 w-8 text-gray-400" />
+                <span>No job listings imported yet</span>
+              </div>
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );

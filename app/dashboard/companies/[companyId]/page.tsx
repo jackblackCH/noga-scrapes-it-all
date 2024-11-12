@@ -17,6 +17,7 @@ async function getCompanyDetails(companyId: string): Promise<TransformedCompany 
 
     return {
       name: company.name,
+      logo: company.logo,
       priority: company.priority,
       slug: company.slug,
       employer: company.employer,

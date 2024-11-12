@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -21,87 +19,63 @@ import {
   Briefcase,
   Beaker,
   BarChart3,
+  Clock,
 } from 'lucide-react';
+import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
+import { Job } from '@/app/types/job';
+async function JobList() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`, {
+    cache: 'no-store',
+  });
 
-const jobsData = [
-  {
-    id: 1,
-    title: 'Senior Process Engineer (Fermentation)',
-    company: 'Adams Foods',
-    location: 'United Kingdom',
-    logo: 'https://placehold.co/48',
-    postedAgo: '1w ago',
-    tags: ['Bioprocess', 'Food Science', 'Manufacturing', 'Europe'],
-  },
-  {
-    id: 2,
-    title: 'Research Scientist - Plant-Based Proteins',
-    company: 'GreenEats Inc.',
-    location: 'Netherlands',
-    logo: 'https://placehold.co/48',
-    postedAgo: '3d ago',
-    tags: ['R&D', 'Food Science', 'Protein Chemistry', 'Europe'],
-  },
-  {
-    id: 3,
-    title: 'Marketing Manager - Alternative Meats',
-    company: 'Future Foods Co.',
-    location: 'Germany',
-    logo: 'https://placehold.co/48',
-    postedAgo: '5d ago',
-    tags: ['Marketing', 'Brand Management', 'Food Industry', 'Europe'],
-  },
-  {
-    id: 4,
-    title: 'Quality Assurance Specialist',
-    company: 'PurePro Labs',
-    location: 'France',
-    logo: 'https://placehold.co/48',
-    postedAgo: '2w ago',
-    tags: ['Quality Control', 'Food Safety', 'Regulatory Compliance', 'Europe'],
-  },
-  {
-    id: 5,
-    title: 'Supply Chain Analyst - Sustainable Sourcing',
-    company: 'EcoNutrition',
-    location: 'Spain',
-    logo: 'https://placehold.co/48',
-    postedAgo: '4d ago',
-    tags: ['Supply Chain', 'Sustainability', 'Data Analysis', 'Europe'],
-  },
-];
+  if (!response.ok) {
+    throw new Error('Failed to fetch jobs');
+  }
+  const jobs = (await response.json()) as Job[];
 
-function JobList() {
   return (
     <section className="max-w-6xl mx-auto px-4">
       <h2 className="text-2xl font-bold mb-2">Latest Jobs</h2>
       <div className="space-y-4 pb-8">
-        {jobsData.map((job) => (
-          <Card key={job.id} className="p-4">
+        {jobs.map((job, index) => (
+          <Card key={job.slug + index} className="p-4">
             <div className="flex items-start gap-4">
-              {job.logo && (
+              {job.companyLogoUrl ? (
                 <Image
                   loading="lazy"
-                  alt={`${job.company} logo`}
+                  alt={`${job.title} logo`}
                   className="h-12 w-12 rounded-full object-cover"
-                  src={job.logo}
+                  src={job.companyLogoUrl}
                   width={48}
                   height={48}
                   unoptimized
                 />
+              ) : (
+                <div className="h-12 w-12 rounded-full bg-gray-200" />
               )}
-              <div className="flex-1">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold">{job.title}</h3>
+              <div className="flex-1 flex items-center justify-between">
+                <div className="flex flex-1 items-center justify-between">
+                  <div className="grid grid-cols-1 gap-1">
+                    <h3 className="font-medium text-lg">
+                      <Link href={`/companies/${job.companySlug}/jobs/${job.slug}`}>
+                        {job.title}
+                      </Link>
+                    </h3>
                     <p className="text-sm text-muted-foreground">
-                      {job.company} • {job.location}
+                      <Link href={`/companies/${job.companySlug}`}>{job.company}</Link> •{' '}
+                      {job.location}
                     </p>
                   </div>
-                  <p className="text-sm text-muted-foreground">{job.postedAgo}</p>
+                  <div className="text-right text-xs text-muted-foreground items-center flex">
+                    <Clock className="inline-block w-4 h-4 mr-1.5" />{' '}
+                    {job.dateUpdated
+                      ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
+                      : ''}
+                  </div>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {job.tags.map((tag) => (
+                  {job?.tags?.map((tag) => (
                     <Button key={tag} variant="outline" size="sm">
                       {tag}
                     </Button>
@@ -116,7 +90,7 @@ function JobList() {
   );
 }
 
-export function JobBoard() {
+export async function JobBoard() {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">

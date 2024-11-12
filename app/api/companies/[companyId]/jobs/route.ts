@@ -115,7 +115,6 @@ export async function POST(request: NextRequest, { params }: { params: { company
       },
     ]);
 
-    console.log('Revalidating paths');
     // Update revalidation paths to cover all necessary routes
     revalidatePath(`/dashboard/companies/${params.companyId}`, 'page');
     revalidatePath('/dashboard/companies', 'page');
