@@ -29,7 +29,7 @@ type Filters = {
 };
 
 const JobCard: React.FC<{ job: Job }> = React.memo(({ job }) => (
-  <Link href={`/jobs/${job.slug}`}>
+  <Link href={`/companies/${job.companySlug}/jobs/${job.slug}`}>
     <Card className="mb-4 hover:shadow-md transition-shadow">
       <CardContent className="p-4">
         <div className="flex items-start">
@@ -219,9 +219,7 @@ export default function JobBoard() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch('/api/companies/jobs', {
-          cache: 'no-cache',
-        });
+        const response = await fetch('/api/companies/jobs');
         if (!response.ok) {
           throw new Error('Failed to fetch jobs');
         }
