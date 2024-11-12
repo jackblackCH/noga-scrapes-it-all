@@ -32,6 +32,8 @@ const initialData = {
   ],
 };
 
+export const dynamic = 'force-dynamic';
+
 async function getCompanies() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies`, {
     next: {

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
@@ -12,17 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  ChevronLeft,
-  ChevronRight,
-  GraduationCap,
-  Briefcase,
-  Beaker,
-  BarChart3,
-} from 'lucide-react';
 
 import { Suspense } from 'react';
 import JobList from './job-list';
+import { JobTags } from './job-tags';
 
 export async function JobBoard() {
   return (
@@ -73,44 +65,7 @@ export async function JobBoard() {
           </div>
         </section>
         <section className="max-w-6xl mx-auto px-4 py-12">
-          <div className="relative">
-            <div className="flex gap-4 overflow-hidden">
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute left-0 top-1/2 z-10 h-8 w-8 -translate-y-1/2 rounded-full"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Card className="flex-1 p-6 text-center">
-                <Briefcase className="mx-auto h-8 w-8" />
-                <h3 className="mt-4 font-medium">Executive-level roles</h3>
-                <p className="mt-2 text-sm text-muted-foreground">15 jobs</p>
-              </Card>
-              <Card className="flex-1 p-6 text-center">
-                <GraduationCap className="mx-auto h-8 w-8" />
-                <h3 className="mt-4 font-medium">Good for Recent Grads</h3>
-                <p className="mt-2 text-sm text-muted-foreground">73 jobs</p>
-              </Card>
-              <Card className="flex-1 p-6 text-center">
-                <Beaker className="mx-auto h-8 w-8" />
-                <h3 className="mt-4 font-medium">Food Science</h3>
-                <p className="mt-2 text-sm text-muted-foreground">56 jobs</p>
-              </Card>
-              <Card className="flex-1 p-6 text-center">
-                <BarChart3 className="mx-auto h-8 w-8" />
-                <h3 className="mt-4 font-medium">Marketing & Sales</h3>
-                <p className="mt-2 text-sm text-muted-foreground">162 jobs</p>
-              </Card>
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute right-0 top-1/2 z-10 h-8 w-8 -translate-y-1/2 rounded-full"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+          <JobTags />
         </section>
         <section className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-bold mb-2">Latest Jobs</h2>

@@ -12,7 +12,7 @@ import {
 import { Separator } from '@radix-ui/react-select';
 import Link from 'next/link';
 import BreadCrumb from './BreadCrumb';
-import { Suspense } from 'react';
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider
@@ -44,7 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        {children}
       </SidebarInset>
     </SidebarProvider>
   );
