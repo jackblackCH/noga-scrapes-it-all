@@ -25,6 +25,7 @@ Working draft on a fully representation of https://altproteincareers.com/
 
 ## TODO
 
+- Generate Logo or write a service to find it.
 - revalidate sidebar
 - @Noga: Question how often should jobs be parsed?
 - Harmless Harvest: Adding jobs is not unique when title is the same. e.g 3 different project managers from different cities.
