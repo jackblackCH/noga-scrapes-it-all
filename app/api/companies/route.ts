@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server';
 import Airtable, { FieldSet, Record } from 'airtable';
 import { Job } from '@/app/types/job';
 
-export const revalidate = 0;
+
+// Remove or keep commented out the revalidate config since we're using dynamic
+// export const revalidate = 0;
 
 interface AirtableFields extends FieldSet {
   Company?: string;
