@@ -6,6 +6,8 @@ import { Job } from '@/app/types/job';
 // Remove or keep commented out the revalidate config since we're using dynamic
 // export const revalidate = 0;
 
+export const dynamic = 'force-dynamic';
+
 interface AirtableFields extends FieldSet {
   Company?: string;
   Slug?: string;

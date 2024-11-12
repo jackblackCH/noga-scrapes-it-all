@@ -77,7 +77,7 @@ export default function Page() {
             <h3 className="font-semibold">Recent Activity</h3>
             <div className="mt-4 space-y-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center gap-4">
+                <div key={`test-${i}`} className="flex items-center gap-4">
                   <div className="h-2 w-2 rounded-full bg-blue-500" />
                   <div className="flex-1">
                     <p className="text-sm">New application submitted</p>
@@ -88,10 +88,6 @@ export default function Page() {
             </div>
           </div>
         </div>
-
-        {/* <Suspense fallback={<div className="rounded-lg border bg-card p-6">Loading...</div>}>
-          <RecentCompanies />
-        </Suspense> */}
       </div>
     </div>
   );
