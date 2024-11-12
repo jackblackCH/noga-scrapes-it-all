@@ -63,7 +63,7 @@ export function PostJobFormComponent() {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto max-w-3xl">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <p className="text-gray-600 mb-4">
             Alt Protein employers: We will post a regular job post (not featured) for 30 days at no
