@@ -33,9 +33,9 @@ export async function GET(request: Request) {
     });
     const sourceCode = await response.text();
 
-    // console.log('------------SOURCE CODE JINA AI MARKDOWN---------------');
-    // console.log(sourceCode);
-    // console.log('--------------------------------------');
+    // console1.log('------------SOURCE CODE JINA AI MARKDOWN---------------');
+    // console1.log(sourceCode);
+    // console1.log('--------------------------------------');
 
     if (
       sourceCode.includes('Checking the site connection security') ||

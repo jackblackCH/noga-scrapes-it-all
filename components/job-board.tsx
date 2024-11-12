@@ -19,78 +19,10 @@ import {
   Briefcase,
   Beaker,
   BarChart3,
-  Clock,
 } from 'lucide-react';
-import Link from 'next/link';
-import { formatDistanceToNow } from 'date-fns';
-import { Job } from '@/app/types/job';
-async function JobList() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`, {
-    cache: 'no-store',
-  });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch jobs');
-  }
-  const jobs = (await response.json()) as Job[];
-
-  return (
-    <section className="max-w-6xl mx-auto px-4">
-      <h2 className="text-2xl font-bold mb-2">Latest Jobs</h2>
-      <div className="space-y-4 pb-8">
-        {jobs.map((job, index) => (
-          <Link
-            className="block hover:no-underline"
-            key={job.slug + index}
-            href={`/companies/${job.companySlug}/jobs/${job.slug}`}
-          >
-            <Card className="p-4 hover:shadow-md transition-shadow">
-              <div className="flex items-start gap-4">
-                {job.companyLogoUrl ? (
-                  <Image
-                    loading="lazy"
-                    alt={`${job.title} logo`}
-                    className="h-12 w-12 rounded-full object-cover"
-                    src={job.companyLogoUrl}
-                    width={48}
-                    height={48}
-                    unoptimized
-                  />
-                ) : (
-                  <div className="h-12 w-12 rounded-full bg-gray-200" />
-                )}
-                <div className="flex-1 flex items-center justify-between">
-                  <div className="flex flex-1 items-center justify-between">
-                    <div className="grid grid-cols-1 gap-1">
-                      <h3 className="font-medium text-lg">{job.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        <Link href={`/companies/${job.companySlug}`}>{job.company}</Link> •{' '}
-                        {job.location}
-                      </p>
-                    </div>
-                    <div className="text-right text-xs text-muted-foreground items-center flex">
-                      <Clock className="inline-block w-4 h-4 mr-1.5" />{' '}
-                      {job.dateUpdated
-                        ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
-                        : ''}
-                    </div>
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {job?.tags?.map((tag) => (
-                      <Button key={tag} variant="outline" size="sm">
-                        {tag}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
+import { Suspense } from 'react';
+import JobList from './job-list';
 
 export async function JobBoard() {
   return (
@@ -180,7 +112,18 @@ export async function JobBoard() {
             </div>
           </div>
         </section>
-        <JobList />
+        <section className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-2">Latest Jobs</h2>
+          <Suspense
+            fallback={
+              <div className="rounded-lg border bg-card p-6">
+                <div className="h-12 w-12 bg-gray-200 rounded-full animate-pulse" />
+              </div>
+            }
+          >
+            <JobList />
+          </Suspense>
+        </section>
       </main>
     </div>
   );

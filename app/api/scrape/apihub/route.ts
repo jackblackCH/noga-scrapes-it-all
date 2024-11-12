@@ -25,7 +25,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const companyId = searchParams.get('companyId');
 
-    console.log('companyId', companyId);
     if (!companyId) {
       return NextResponse.json({ error: 'Company ID parameter is required' }, { status: 400 });
     }
@@ -46,7 +45,7 @@ export async function GET(request: Request) {
       throw new Error('Failed to connect to APIHub service');
     });
 
-    console.log('APIHub response status:', response.status);
+       
 
     if (response.status === 404) {
       return NextResponse.json({ error: 'No jobs found for this company' }, { status: 404 });
@@ -67,14 +66,13 @@ export async function GET(request: Request) {
     let data: Job[];
     try {
       const responseData = await response.json();
-      console.log('APIHub response data:', responseData);
+
       data = responseData.data as Job[];
     } catch (error) {
       console.error('Error parsing APIHub response:', error);
       return NextResponse.json({ error: 'Invalid response from APIHub service' }, { status: 500 });
     }
 
-    console.log('APIHub data:', data);
 
     if (!Array.isArray(data)) {
       console.error('Unexpected response format from APIHub');

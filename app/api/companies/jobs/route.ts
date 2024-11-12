@@ -29,6 +29,7 @@ export async function GET() {
     records.forEach((record) => {
       const jobsFoundJSON = record.get('JobsFoundJSON') as string;
       const companyLogo = record.get('Logo') as Airtable.Attachment[];
+      const companySlug = record.get('Slug') as string;
 
       if (jobsFoundJSON) {
         try {
@@ -37,7 +38,7 @@ export async function GET() {
             ...job,
             company: record.get('Company') as string,
             companyLogoUrl: companyLogo && companyLogo[0] ? companyLogo[0].url : '',
-            companySlug: record.get('Slug') as string,
+            companySlug: companySlug,
           }));
           allJobs.push(...jobsWithLogo);
         } catch (error) {
@@ -82,11 +83,12 @@ export async function POST(request: Request) {
       strict: true,
     });
 
-    // Add slug to job object
+    // Add slug and companySlug to job object
     const jobWithSlug = {
       ...job,
       slug: baseSlug,
       dateUpdated,
+      companySlug: companyId,
     };
 
     const airtable = new Airtable({

@@ -49,9 +49,9 @@ export function PostJobFormComponent() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit() {
     // Handle form submission
-    console.log(values);
+    // console.log(values);
   }
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

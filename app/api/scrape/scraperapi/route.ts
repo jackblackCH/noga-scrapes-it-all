@@ -16,8 +16,6 @@ export async function GET(request: NextRequest) {
       'originToLandingJobPostings'
     )}`;
 
-    console.log('New URL:', newUrl);
-
     if (!listingUrl) {
       return NextResponse.json({ error: 'URL parameter is required' }, { status: 400 });
     }
