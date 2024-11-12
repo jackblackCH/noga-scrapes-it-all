@@ -95,7 +95,7 @@ export default async function CompanyJobPage({
               href={job.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-emerald-600 text-white text-center py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors"
+              className="block w-full bg-primary text-white text-center py-2 px-4 rounded-lg hover:bg-primary/80 transition-colors"
             >
               Apply Now
             </a>

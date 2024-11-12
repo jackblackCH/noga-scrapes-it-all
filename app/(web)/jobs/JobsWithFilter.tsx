@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -16,7 +16,6 @@ import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
 
 import { Job } from '@/app/types/job';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 type Filters = {
   searchTerm: string;
@@ -176,9 +175,11 @@ const FilterSidebar: React.FC<{
 
 FilterSidebar.displayName = 'FilterSidebar';
 
-export default function JobBoard() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [jobs, setJobs] = useState<Job[]>([]);
+interface JobsWithFilterProps {
+  initialJobs: Job[];
+}
+
+export default function JobsWithFilter({ initialJobs }: JobsWithFilterProps) {
   const [filters, setFilters] = useState<Filters>({
     searchTerm: '',
     category: 'all',
@@ -194,7 +195,7 @@ export default function JobBoard() {
   }, []);
 
   const filteredJobs = useMemo(() => {
-    return jobs.filter((job) => {
+    return initialJobs.filter((job) => {
       const searchMatch =
         job.title?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
         false ||
@@ -214,43 +215,19 @@ export default function JobBoard() {
         !filters.remoteOnly || job.type?.toLowerCase().includes('remote') || false;
       return searchMatch && categoryMatch && locationMatch && remoteMatch;
     });
-  }, [filters, jobs]);
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const response = await fetch('/api/companies/jobs');
-        if (!response.ok) {
-          throw new Error('Failed to fetch jobs');
-        }
-        const data = await response.json();
-        setJobs(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('JobsWithFilter: Error fetching jobs:', error);
-      }
-    };
-
-    fetchJobs();
-  }, []);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  }, [filters, initialJobs]);
 
   return (
-    <>
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="lg:w-3/4 space-y-4">
-          {filteredJobs.map((job, index) => (
-            <JobCard key={job.title + '-' + index} job={job} />
-          ))}
-          {filteredJobs.length === 0 && <div>No jobs available</div>}
-        </div>
-        <div className="lg:w-1/4">
-          <FilterSidebar filters={filters} onFilterChange={handleFilterChange} />
-        </div>
+    <div className="flex flex-col lg:flex-row gap-6">
+      <div className="lg:w-3/4 space-y-4">
+        {filteredJobs.map((job, index) => (
+          <JobCard key={job.title + '-' + index} job={job} />
+        ))}
+        {filteredJobs.length === 0 && <div>No jobs available</div>}
       </div>
-    </>
+      <div className="lg:w-1/4">
+        <FilterSidebar filters={filters} onFilterChange={handleFilterChange} />
+      </div>
+    </div>
   );
 }
