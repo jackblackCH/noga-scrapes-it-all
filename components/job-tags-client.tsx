@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-
+import Link from 'next/link';
 type Category = {
   name: string;
   image: string;
@@ -100,10 +100,13 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
               width={56}
               height={56}
             />
-            <h3 className="mt-4 font-medium">{tag.name}</h3>
-            <p className="mt-2 text-sm text-muted-foreground hover:underline cursor-pointer transition-colors duration-200">
+            <h3 className="mt-4 mb-1 font-medium">{tag.name}</h3>
+            <Link
+              href={`/jobs?category=${tag.name}`}
+              className="mt-2 text-sm text-muted-foreground hover:underline cursor-pointer transition-colors duration-200"
+            >
               View jobs
-            </p>
+            </Link>
           </Card>
         ))}
       </div>
