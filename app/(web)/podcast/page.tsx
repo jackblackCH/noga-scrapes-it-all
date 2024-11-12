@@ -84,8 +84,8 @@ export default function Podcast() {
           height={400}
         />
 
+        <h2 className="text-emerald-600 font-bold text-lg">About the Podcast</h2>
         <p>
-          <h2 className="text-emerald-600 font-bold text-lg">About the Podcast</h2>
           Each episode delves into the unique experiences and insights of individuals within the alt
           protein sector, offering a rich tapestry of stories and perspectives. Whether you are just
           starting your career journey or seeking to advance to new heights, you&apos;ll find
@@ -93,8 +93,8 @@ export default function Podcast() {
           informative tone that keeps you entertained while you learn.
         </p>
 
+        <h2 className="text-emerald-600 font-bold text-lg">Meet the Host</h2>
         <p>
-          <h2 className="text-emerald-600 font-bold text-lg">Meet the Host</h2>
           Sam Fisher is your guide through the world of building a career in alt proteins. Known for
           asking great questions and uncovering hidden insights, Sam brings a unique perspective to
           each episode.
@@ -108,8 +108,8 @@ export default function Podcast() {
           protein sector, and a graduate of the Stanford Graduate School of Business.
         </p>
 
+        <h2 className="text-emerald-600 font-bold text-lg">Join the Community</h2>
         <div>
-          <h2 className="text-emerald-600 font-bold text-lg">Join the Community</h2>
           <p>
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSfR8VH9-6WnXM2z6yKUXmeHYv0pBqDx5fQnpxfHTXyL7rYTzg/viewform?usp=sf_link"
@@ -125,8 +125,8 @@ export default function Podcast() {
           </p>
         </div>
 
+        <h2 className="text-emerald-600 font-bold text-lg">Take the Next Step</h2>
         <p>
-          <h2 className="text-emerald-600 font-bold text-lg">Take the Next Step</h2>
           Explore our executive coaching services tailored for individuals in the alt protein
           industry. Work with Sam to refine your career goals, develop strategies, and achieve
           success in your career. Reach out to Sam at{' '}

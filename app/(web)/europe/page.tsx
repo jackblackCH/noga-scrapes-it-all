@@ -11,6 +11,7 @@ export default function Europe() {
           alt="Europe"
           width={400}
           height={400}
+          style={{ height: 'auto' }}
         />
       </div>
       <p>
@@ -37,6 +38,7 @@ export default function Europe() {
         alt="Info graphic Europe"
         width={700}
         height={400}
+        priority
       />
       <p>
         You can now find European-based jobs and career resources on the Alt Protein Careers site,

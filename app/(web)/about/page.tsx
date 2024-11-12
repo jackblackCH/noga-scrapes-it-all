@@ -101,8 +101,10 @@ export default function About() {
               src="/about/noga.png"
               alt="Noga Golan"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
+              priority
             />
             <p>
               Noga&apos;s professional experience spans several years in private equity and venture
@@ -118,7 +120,8 @@ export default function About() {
               src="/about/sam.png"
               alt="Sam Fisher"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>
@@ -137,7 +140,8 @@ export default function About() {
               src="/about/anna.png"
               alt="Anna Heslop"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>
@@ -156,7 +160,8 @@ export default function About() {
               src="/about/daniel.png"
               alt="Daniel Conway"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>
@@ -176,7 +181,8 @@ export default function About() {
               src="/about/sacha.png"
               alt="Sacha Langer"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>
@@ -195,7 +201,8 @@ export default function About() {
               src="/about/jennifer.png"
               alt="Jennifer Wynn"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>
@@ -215,7 +222,8 @@ export default function About() {
               src="/about/sarah.png"
               alt="Sarah Meadows"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>
@@ -235,7 +243,8 @@ export default function About() {
               src="/about/shimoi.png"
               alt="Shimoi Kalra"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>
@@ -254,7 +263,8 @@ export default function About() {
               src="/about/ruvi.jpeg"
               alt="Ruvi"
               width={450}
-              height={450}
+              height={300}
+              style={{ height: 'auto', width: '100%' }}
               className="rounded-lg"
             />
             <p>

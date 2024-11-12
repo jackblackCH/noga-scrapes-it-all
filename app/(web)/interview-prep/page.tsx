@@ -16,6 +16,8 @@ export default function InterviewPrep() {
         alt="Interview Prep"
         width={700}
         height={400}
+        style={{ height: 'auto', width: '100%' }}
+        priority
       />
 
       <div>
