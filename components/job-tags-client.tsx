@@ -70,7 +70,7 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
     <div className="relative w-full overflow-hidden">
       <div
         ref={scrollContainerRef}
-        className="flex gap-4 px-10 overflow-x-auto 
+        className="flex gap-4 px-4 -mx-4 overflow-x-auto 
           scroll-smooth scrollbar-hide
           snap-x snap-mandatory
           transition-transform duration-300 ease-out

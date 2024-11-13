@@ -72,6 +72,7 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
         <TableRow className="bg-gray-50">
           <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900">Title</TableHead>
           <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900">Location</TableHead>
+          <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900">Tags</TableHead>
           <TableHead className="py-4 px-6 text-sm font-semibold text-gray-900">
             Last Updated
           </TableHead>
@@ -103,6 +104,20 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
                 {job.location}
               </span>
             </TableCell>
+            <TableCell className="py-4 px-6">
+              <div className="flex flex-wrap gap-1">
+                {job.tags?.map((tag) => (
+                  <Button
+                    key={tag}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white text-xs rounded-full px-2 py-0.5"
+                  >
+                    {tag}
+                  </Button>
+                ))}
+              </div>
+            </TableCell>
             <TableCell className="py-4 px-6 text-gray-600">{formatDate(job.dateUpdated)}</TableCell>
             <TableCell className="py-4 px-6 text-right">
               <Button
@@ -119,7 +134,7 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
         ))}
         {(!jobs || jobs.length === 0) && (
           <TableRow>
-            <TableCell colSpan={4} className="py-8 text-center text-gray-500 bg-gray-50">
+            <TableCell colSpan={5} className="py-8 text-center text-gray-500 bg-gray-50">
               <div className="flex flex-col items-center gap-2">
                 <span className="text-2xl">📋</span>
                 <span>No jobs found</span>

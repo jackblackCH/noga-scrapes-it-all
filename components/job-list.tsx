@@ -27,7 +27,7 @@ export default async function JobList() {
               ) : (
                 <div className="h-12 w-12 rounded-full bg-gray-200" />
               )}
-              <div className="flex-1 flex items-center justify-between">
+              <div className="flex-1">
                 <div className="flex flex-1 items-center justify-between">
                   <div className="grid grid-cols-1 gap-1">
                     <h3 className="font-medium text-lg">
@@ -49,7 +49,7 @@ export default async function JobList() {
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {job?.tags?.map((tag) => (
-                    <Button key={tag} variant="outline" size="sm">
+                    <Button key={tag} className="rounded-full" variant="outline" size="sm">
                       {tag}
                     </Button>
                   ))}

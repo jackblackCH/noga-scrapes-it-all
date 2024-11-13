@@ -199,7 +199,7 @@ function JobCrawler({
       </TableRow>
       {crawlState.jobs && (
         <TableRow>
-          <TableCell colSpan={3} className="py-8 text-center text-gray-500 bg-gray-50">
+          <TableCell colSpan={3} className="py-8 text-gray-500 bg-gray-50">
             <div className="space-y-2 p-2">
               {crawlState.jobs.map((job, index) => (
                 <div
@@ -272,7 +272,7 @@ export default function CrawlList({
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={4} className="py-8 text-center text-gray-500 bg-gray-50">
+            <TableCell colSpan={4} className="py-4 text-gray-500 bg-gray-50">
               <div className="flex flex-col items-center gap-2">
                 <ScanSearch className="h-8 w-8 text-gray-400" />
                 <span>No job listings imported yet</span>

@@ -56,6 +56,7 @@ class JobExtractor {
         - type: job type (full-time, part-time, contract)
         - description: brief description
         - url: the url of the job posting
+        - tags: use tags from this list that match the job posting, apply Europe 🌍 if location is Europe (Europe 🌍, Big Food Company 🥫, Executive-level roles, Bioprocess & Process Engineers, Software Engineers, Software Engineering, Molecular Biology, Research, Technicians ⚒️, Culinary & Chefs 👩🏻‍🍳, Business Development 📈, Brand Ambassadors, Operations & Supply Chains, Manufacturing, Accounting, Food Science, Regulatory Affairs & Legal, Marketing & Sales, Finance, Mechanical Engineering, Senior / Director level, Good for Recent Grads, Chemists, HR & Administration, Food Safety & QA, Internships, Logistics 🚚, Research Associates 🔬, Web developers 🧑‍💻)
       `;
 
       const result = await this.client.chat.complete({
