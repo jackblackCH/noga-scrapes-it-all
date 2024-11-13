@@ -49,14 +49,14 @@ class JobExtractor {
         Each job must have these fields (use null if not found):
         - title: job title
         - company: company name
-        - location: work location
+        - location: work location with country
         - experience: required experience
         - skills: array of required skills
         - salary: salary information
         - type: job type (full-time, part-time, contract)
         - description: brief description
         - url: the url of the job posting
-        - tags: use tags from this list that match the job posting, only apply Europe 🌍 if job location is reallyEurope (Europe 🌍, Big Food Company 🥫, Executive-level roles, Bioprocess & Process Engineers, Software Engineers, Software Engineering, Molecular Biology, Research, Technicians ⚒️, Culinary & Chefs 👩🏻‍🍳, Business Development 📈, Brand Ambassadors, Operations & Supply Chains, Manufacturing, Accounting, Food Science, Regulatory Affairs & Legal, Marketing & Sales, Finance, Mechanical Engineering, Senior / Director level, Good for Recent Grads, Chemists, HR & Administration, Food Safety & QA, Internships, Logistics 🚚, Research Associates 🔬, Web developers 🧑‍💻)
+        - tags: use tags from this list that match the job posting. (Europe 🌍 (only if location is Europe), Big Food Company 🥫, Executive-level roles, Bioprocess & Process Engineers, Software Engineers, Software Engineering, Molecular Biology, Research, Technicians ⚒️, Culinary & Chefs 👩🏻‍🍳, Business Development 📈, Brand Ambassadors, Operations & Supply Chains, Manufacturing, Accounting, Food Science, Regulatory Affairs & Legal, Marketing & Sales, Finance, Mechanical Engineering, Senior / Director level, Good for Recent Grads, Chemists, HR & Administration, Food Safety & QA, Internships, Logistics 🚚, Research Associates 🔬, Web developers 🧑‍💻)
       `;
 
       const result = await this.client.chat.complete({

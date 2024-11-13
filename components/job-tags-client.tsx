@@ -58,6 +58,10 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
   };
 
   const handleMouseUp = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.style.scrollBehavior = 'smooth';
+    }
+
     setIsDragging(false);
   };
 

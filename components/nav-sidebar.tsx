@@ -17,11 +17,6 @@ import { CompanyList } from './nav-sidebar/company-list';
 import SidebarItem from './nav-sidebar/item';
 
 const initialData = {
-  user: {
-    name: 'Noga',
-    email: 'noga@altproteincareers.com',
-    avatar: '/avatars/noga.jpeg',
-  },
   navMain: [
     {
       title: 'Companies',
@@ -87,7 +82,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          <NavUser user={initialData.user} />
+          <NavUser />
         </SidebarFooter>
       </Sidebar>
 
