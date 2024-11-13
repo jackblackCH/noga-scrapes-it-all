@@ -19,38 +19,38 @@ import { useQueryState } from 'nuqs';
 import { Job } from '@/app/types/job';
 
 const JobCard: React.FC<{ job: Job }> = React.memo(({ job }) => (
-  <Link href={`/companies/${job.companySlug}/jobs/${job.slug}`}>
-    <Card className="mb-4 hover:shadow-md transition-shadow">
-      <CardContent className="p-4">
-        <div className="flex items-start">
-          <div className="w-12 h-12 rounded mr-4 bg-emerald-700" />
-          <div className="flex-1">
+  <Card className="mb-4 hover:shadow-md transition-shadow">
+    <CardContent className="p-4">
+      <div className="flex items-start">
+        <div className="w-12 h-12 rounded mr-4 bg-emerald-700" />
+        <div className="flex-1">
+          <Link href={`/companies/${job.companySlug}/jobs/${job.slug}`}>
             <h2 className="text-xl font-semibold">{job.title}</h2>
-            <p className="text-gray-600">
-              {job.company} • {job.location}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {job?.tags?.map((tag, index) => (
-                <Link
-                  href={`/jobs?category=${encodeURIComponent(tag)}`}
-                  key={index}
-                  className="px-2 py-1 bg-gray-200 text-sm rounded-full hover:bg-gray-300 transition-colors"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="text-sm text-gray-500 flex items-center whitespace-nowrap">
-            <Clock className="w-4 h-4 mr-1" />
-            {job.dateUpdated
-              ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
-              : 'more than 24 hours ago'}
+          </Link>
+          <p className="text-gray-600">
+            {job.company} • {job.location}
+          </p>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {job?.tags?.map((tag, index) => (
+              <Link
+                href={`/jobs?category=${encodeURIComponent(tag)}`}
+                key={`tag-${index}`}
+                className="px-2 py-1 bg-gray-200 text-sm rounded-full hover:bg-gray-300 transition-colors"
+              >
+                {tag}
+              </Link>
+            ))}
           </div>
         </div>
-      </CardContent>
-    </Card>
-  </Link>
+        <div className="text-sm text-gray-500 flex items-center whitespace-nowrap">
+          <Clock className="w-4 h-4 mr-1" />
+          {job.dateUpdated
+            ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
+            : 'more than 24 hours ago'}
+        </div>
+      </div>
+    </CardContent>
+  </Card>
 ));
 
 JobCard.displayName = 'JobCard';
@@ -91,7 +91,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = React.memo(
             Category
           </label>
           <Select
-            value={filters.category}
+            value={filters.category || 'all'}
             onValueChange={(value) => onFilterChange('category', value)}
           >
             <SelectTrigger id="category">
@@ -99,11 +99,13 @@ const FilterSidebar: React.FC<FilterSidebarProps> = React.memo(
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Categories</SelectItem>
-              {categories.map((category) => (
-                <SelectItem key={category.name} value={category.name}>
-                  {category.name}
-                </SelectItem>
-              ))}
+              {categories
+                ?.filter((category) => category.name)
+                .map((category) => (
+                  <SelectItem key={category.name} value={category.name}>
+                    {category.name}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </div>
@@ -142,9 +144,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = React.memo(
           <label htmlFor="radius" className="block text-sm font-medium text-gray-700">
             Radius
           </label>
-          <Select value={filters.radius} onValueChange={(value) => onFilterChange('radius', value)}>
+          <Select
+            value={filters.radius || '25'}
+            onValueChange={(value) => onFilterChange('radius', value)}
+          >
             <SelectTrigger id="radius">
-              <SelectValue placeholder="within 25 km" />
+              <SelectValue placeholder="Select radius" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="25">within 25 km</SelectItem>
@@ -167,9 +172,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = React.memo(
           <label htmlFor="sort-by" className="block text-sm font-medium text-gray-700">
             Sort By
           </label>
-          <Select value={filters.sortBy} onValueChange={(value) => onFilterChange('sortBy', value)}>
+          <Select
+            value={filters.sortBy || 'relevance'}
+            onValueChange={(value) => onFilterChange('sortBy', value)}
+          >
             <SelectTrigger id="sort-by">
-              <SelectValue placeholder="Relevance" />
+              <SelectValue placeholder="Select sort order" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="relevance">Relevance</SelectItem>
