@@ -32,6 +32,7 @@ Working draft on a fully representation of https://altproteincareers.com/
 
 ## Difficulties (Source code too big)
 
+- Planta Restaurants. Error Prompt contains 71968 tokens, too large for model with 32768 maximum context length
 - Amy's Kitchen (too many tokens)
 - Coperion (too many tokens)
 - GEA (too many tokens)
