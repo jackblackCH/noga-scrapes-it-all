@@ -16,6 +16,7 @@ import BreadCrumb from './BreadCrumb';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider
+      className="font-sans"
       style={
         {
           '--sidebar-width': '350px',

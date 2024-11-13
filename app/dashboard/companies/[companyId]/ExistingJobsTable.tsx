@@ -100,7 +100,7 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
             </TableCell>
             <TableCell className="py-4 px-6 text-gray-600">
               <span className="inline-flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span className="w-3 h-3 mr-1 rounded-full bg-primary"></span>
                 {job.location}
               </span>
             </TableCell>
@@ -137,7 +137,7 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
             <TableCell colSpan={5} className="py-8 text-center text-gray-500 bg-gray-50">
               <div className="flex flex-col items-center gap-2">
                 <span className="text-2xl">📋</span>
-                <span>No jobs found</span>
+                <span>No jobs added</span>
               </div>
             </TableCell>
           </TableRow>

@@ -2,6 +2,8 @@ import { TransformedCompany } from '@/app/api/companies/route';
 import CrawlList from '@/components/ui/crawl-list';
 import { notFound } from 'next/navigation';
 import ExistingJobsTable from './ExistingJobsTable';
+import Image from 'next/image';
+
 export const dynamic = 'force-dynamic';
 
 async function getCompanyDetails(companyId: string): Promise<TransformedCompany | null> {
@@ -49,7 +51,22 @@ export default async function CompanyPage({ params }: { params: { companyId: str
   return (
     <main className="p-4">
       <header className="mb-4">
-        <h1 className="text-3xl font-bold">{company.name}</h1>
+        <div className="flex items-center gap-4">
+          {company.logo ? (
+            <div className="relative h-12 w-12 rounded-full border border-gray-200 bg-white overflow-hidden">
+              <Image
+                src={company.logo.url}
+                alt={`${company.name} logo`}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          ) : (
+            <div className="h-12 w-12 rounded-full bg-primary/5" />
+          )}
+          <h1 className="text-3xl font-bold">{company.name}</h1>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -105,11 +122,12 @@ export default async function CompanyPage({ params }: { params: { companyId: str
                 {company.url ? (
                   <a
                     href={company.url}
+                    title={company.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 hover:underline"
+                    className="text-primary truncate hover:text-primary/80 hover:underline"
                   >
-                    Visit website
+                    {company.url.length > 33 ? company.url.slice(0, 33) + '...' : company.url}
                   </a>
                 ) : (
                   'Not set'

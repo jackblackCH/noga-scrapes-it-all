@@ -21,7 +21,7 @@ interface AirtableFields extends FieldSet {
   Status?: string;
   Issue?: string;
   Notes?: string;
-  URL?: string;
+  Website?: string;
   JobsFoundJSON?: string;
   JobsUpdated?: string;
   Logo?: Airtable.Attachment[];
@@ -61,7 +61,7 @@ function transformCompany(company: AirtableFields): TransformedCompany {
     status: company.Status || '',
     issue: company.Issue || '',
     notes: company.Notes || '',
-    url: company.URL || '',
+    url: company.Website || '',
     jobsFound: company.JobsFoundJSON
       ? (() => {
           try {
@@ -112,7 +112,7 @@ export async function GET() {
         Status: record.fields.Status,
         Issue: record.fields.Issue,
         Notes: record.fields.Notes,
-        URL: record.fields.URL,
+        Website: record.fields.Website,
         JobsFoundJSON: record.fields.JobsFoundJSON,
         JobsUpdated: record.fields.JobsUpdated,
         JobsCount: record.fields.JobsCount,

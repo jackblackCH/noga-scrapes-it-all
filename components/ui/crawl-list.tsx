@@ -158,7 +158,7 @@ function JobCrawler({
             href={jobListing}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-600 hover:text-emerald-700 hover:underline block truncate"
+            className="text-primary hover:text-primary/90 hover:underline block truncate"
           >
             {jobListing}
           </a>
@@ -180,7 +180,7 @@ function JobCrawler({
               size="sm"
               onClick={handleCrawl}
               disabled={crawlState.isLoading}
-              className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white"
+              className="rounded-full leading-none"
             >
               {crawlState.isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Crawl'}
             </Button>
@@ -189,7 +189,7 @@ function JobCrawler({
                 size="sm"
                 variant="outline"
                 onClick={handleAddAllJobs}
-                className="rounded-full border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                className="rounded-full leading-none"
               >
                 Add All Jobs
               </Button>
