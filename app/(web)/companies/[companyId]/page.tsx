@@ -47,7 +47,7 @@ export default async function CompanyPage({ params }: { params: { companyId: str
 
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-gray-900">{company.name}</h1>
-              <p className="mt-2 text-lg text-gray-600">{company.location}</p>
+              {company.location && <p className="mt-2 text-lg text-gray-600">{company.location}</p>}
               {company.website && (
                 <a
                   href={company.website}
