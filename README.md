@@ -2,6 +2,24 @@
 
 Working draft on a fully representation of https://altproteincareers.com/
 
+## Setup
+
+- npm install
+- AirTable Access
+- Vercel Access
+  - Set Maximum Duration on Vercel to 60 (for long API calls and scraping)
+
+## TODO
+
+- Upload logos or write a service to find it. https://airtable.com/developers/web/api/upload-attachment
+- Harmless Harvest: Adding jobs is not unique when title is the same. e.g 3 different project managers from different cities.
+- Job Adding: E.g Mooji Meats: Jobs with same title and cannot be added. Unique key generation needed e.g Title + Location
+
+## Done
+
+- [x] Revalidate sidebar
+- [x] @Noga: Question how often should jobs be parsed? 24h.
+
 ## Test Cases with a lot of jobs, working
 
 - Pulmuone Foods USA, Inc.
@@ -22,21 +40,6 @@ Working draft on a fully representation of https://altproteincareers.com/
 
 - New School Foods
 - Bond Pet Foods
-
-## TODO
-
-- Generate Logo or write a service to find it.
-- revalidate sidebar
-- @Noga: Question how often should jobs be parsed?
-- Harmless Harvest: Adding jobs is not unique when title is the same. e.g 3 different project managers from different cities.
-- Mooji Meats: Jobs with same title cannot be added.
-- Ensure to set Maximum Duration on Vercel to 60 (for long API calls and scraping)
-- Check idealist.org
-- Frontend: Make it look like altproteincareers.com
-- Backend:
-  - Parser UI
-  - Read from Spreadsheet https://docs.google.com/spreadsheets/d/117ru5qY5ZAfF3QC-6C-edsaCgwVA44RvMnpDkCc00cQ/edit?gid=0#gid=0
-  - Export as CSV
 
 ## Scraping Services
 
