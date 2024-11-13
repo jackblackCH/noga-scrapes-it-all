@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { JobCard } from '@/components/ui/job-card';
 import { Job } from '@/app/types/job';
-// import { Suspense } from 'react';
-// import JobList from '@/components/job-list';
+import { ExternalLinkIcon } from '@radix-ui/react-icons';
 
 async function getCompany(companyId: string) {
   try {
@@ -53,9 +52,9 @@ export default async function CompanyPage({ params }: { params: { companyId: str
                   href={company.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-block text-primary hover:text-primary/90"
+                  className="mt-4 inline-flex items-center gap-2 text-primary hover:text-primary/90 hover:underline"
                 >
-                  Visit website
+                  Visit website <ExternalLinkIcon className="w-4 h-4" />
                 </a>
               )}
             </div>

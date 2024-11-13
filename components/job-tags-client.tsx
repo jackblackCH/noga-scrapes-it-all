@@ -25,9 +25,8 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
 
   const handlePrevCard = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = scrollContainerRef.current.offsetWidth / (window.innerWidth >= 640 ? 4 : 2);
       scrollContainerRef.current.scrollBy({
-        left: -cardWidth,
+        left: -200,
         behavior: 'smooth',
       });
     }
@@ -35,9 +34,8 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
 
   const handleNextCard = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = scrollContainerRef.current.offsetWidth / (window.innerWidth >= 640 ? 4 : 2);
       scrollContainerRef.current.scrollBy({
-        left: cardWidth,
+        left: 200,
         behavior: 'smooth',
       });
     }
@@ -55,7 +53,7 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
     if (!scrollContainerRef.current) return;
 
     const x = e.pageX - scrollContainerRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
+    const walk = x - startX;
     scrollContainerRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -71,14 +69,12 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
       <div
         ref={scrollContainerRef}
         className="flex gap-4 px-4 -mx-4 overflow-x-auto 
-          scroll-smooth scrollbar-hide
-          snap-x snap-mandatory
-          transition-transform duration-300 ease-out
+          scroll-smooth scrollbar-hide snap-x snap-mandatory
           [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
         style={{
           cursor: isDragging ? 'grabbing' : 'grab',
-          scrollSnapType: 'x mandatory',
           scrollPadding: '0 1rem',
+          scrollBehavior: isDragging ? 'auto' : 'smooth',
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -88,10 +84,9 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
         {displayCategories.map((tag, index) => (
           <Card
             key={`${tag.name}-${index}`}
-            className={`snap-start shrink-0 w-[calc(50%-8px)] sm:w-[calc(25%-12px)] p-4 text-center 
-              scroll-margin-4
-              transition-all duration-300 ease-in-out hover:shadow-lg
-              ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`shrink-0 w-[calc(50%-8px)] sm:w-[calc(25%-12px)] p-4 text-center 
+              transition-all duration-300 ease-in-out hover:shadow-lg snap-center1
+              ${isDragging ? 'cursor-grabbing' : 'cursor-grab snap-start'}`}
           >
             {tag.image && (
               <Image
