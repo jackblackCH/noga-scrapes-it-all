@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import {
   Select,
   SelectContent,
@@ -11,49 +11,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Clock } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import Link from 'next/link';
 import { useQueryState } from 'nuqs';
-
 import { Job } from '@/app/types/job';
-
-const JobCard: React.FC<{ job: Job }> = React.memo(({ job }) => (
-  <Card className="mb-4 hover:shadow-md transition-shadow">
-    <CardContent className="p-4">
-      <div className="flex items-start">
-        <div className="w-12 h-12 rounded mr-4 bg-emerald-700" />
-        <div className="flex-1">
-          <Link href={`/companies/${job.companySlug}/jobs/${job.slug}`}>
-            <h2 className="text-xl font-semibold">{job.title}</h2>
-          </Link>
-          <p className="text-gray-600">
-            {job.company} • {job.location}
-          </p>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {job?.tags?.map((tag, index) => (
-              <Link
-                href={`/jobs?category=${encodeURIComponent(tag)}`}
-                key={`tag-${index}`}
-                className="px-2 py-1 bg-gray-200 text-sm rounded-full hover:bg-gray-300 transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
-        </div>
-        <div className="text-sm text-gray-500 flex items-center whitespace-nowrap">
-          <Clock className="w-4 h-4 mr-1" />
-          {job.dateUpdated
-            ? formatDistanceToNow(new Date(job.dateUpdated), { addSuffix: true })
-            : 'more than 24 hours ago'}
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-));
-
-JobCard.displayName = 'JobCard';
+import { JobCard } from '@/components/ui/job-card';
 
 interface FilterSidebarProps {
   filters: {

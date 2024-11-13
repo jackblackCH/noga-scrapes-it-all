@@ -93,13 +93,15 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
               transition-all duration-300 ease-in-out hover:shadow-lg
               ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           >
-            <Image
-              className="inline-block pointer-events-none aspect-square object-contain transform transition-transform duration-300 group-hover:scale-105"
-              src={tag.image}
-              alt={tag.name}
-              width={56}
-              height={56}
-            />
+            {tag.image && (
+              <Image
+                className="inline-block pointer-events-none aspect-square object-contain transform transition-transform duration-300 group-hover:scale-105"
+                src={tag.image}
+                alt={tag.name}
+                width={56}
+                height={56}
+              />
+            )}
             <h3 className="mt-4 mb-1 font-medium">{tag.name}</h3>
             <Link
               href={`/jobs?category=${tag.name}`}

@@ -2,6 +2,7 @@ export interface Job {
   title: string;
   company: string;
   companyLogoUrl: string | null;
+  companyWebsite: string | null;
   companySlug: string;
   location: string | null;
   experience: string | null;
