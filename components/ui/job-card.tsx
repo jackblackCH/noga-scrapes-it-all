@@ -46,7 +46,7 @@ export function JobCard({ job }: JobCardProps) {
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
             {job?.tags?.map((tag) => (
-              <Link href={`/jobs?tag=${encodeURIComponent(tag)}`} key={tag}>
+              <Link href={`/jobs?category=${encodeURIComponent(tag)}`} key={tag}>
                 <Button className="rounded-full" variant="outline" size="sm">
                   {tag}
                 </Button>
