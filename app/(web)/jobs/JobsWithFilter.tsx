@@ -227,7 +227,11 @@ export default function JobsWithFilter({ initialJobs, categories }: JobsWithFilt
         {filteredJobs.map((job, index) => (
           <JobCard key={job.title + '-' + index} job={job} />
         ))}
-        {filteredJobs.length === 0 && <div>No jobs available</div>}
+        {filteredJobs.length === 0 && (
+          <div className="rounded-xl border bg-card text-card-foreground shadow p-4">
+            No jobs available
+          </div>
+        )}
       </div>
       <div className="lg:w-1/4">
         <FilterSidebar
