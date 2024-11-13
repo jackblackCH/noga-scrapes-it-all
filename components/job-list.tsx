@@ -49,9 +49,11 @@ export default async function JobList() {
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {job?.tags?.map((tag) => (
-                    <Button key={tag} className="rounded-full" variant="outline" size="sm">
-                      {tag}
-                    </Button>
+                    <Link key={tag} href={`/jobs?category=${encodeURIComponent(tag)}`}>
+                      <Button className="rounded-full" variant="outline" size="sm">
+                        {tag}
+                      </Button>
+                    </Link>
                   ))}
                 </div>
               </div>
