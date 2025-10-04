@@ -43,6 +43,7 @@ export async function GET() {
             company: record.get('Company') as string,
             companyLogoUrl: companyLogo && companyLogo[0] ? companyLogo[0].url : '',
             companySlug: companySlug,
+            dateUpdated: (record.get('JobsUpdated') as string) || null,
           }));
           allJobs.push(...jobsWithLogo);
         } catch (error) {
