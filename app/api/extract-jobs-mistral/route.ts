@@ -77,8 +77,8 @@ class JobExtractor {
       });
 
       const content = result.choices?.[0]?.message.content;
-      if (!content) {
-        throw new Error('Empty response from Mistral API');
+      if (!content || typeof content !== 'string') {
+        throw new Error('Invalid response from Mistral API');
       }
 
       const data = JSON.parse(content);
