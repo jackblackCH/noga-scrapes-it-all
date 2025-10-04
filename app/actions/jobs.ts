@@ -6,7 +6,7 @@ export async function getJobs(): Promise<Job[]> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`, {
       next: {
-        revalidate: 60,
+        revalidate: 5,
       },
     });
 

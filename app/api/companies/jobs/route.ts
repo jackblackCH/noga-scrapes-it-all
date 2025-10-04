@@ -22,7 +22,11 @@ export async function GET() {
     });
 
     const base = airtable.base('appQ3lzHc7ziRcWeq');
-    const records = await base('Companies').select().all();
+    const records = await base('Companies')
+      .select({
+        sort: [{ field: 'JobsUpdated', direction: 'desc' }],
+      })
+      .all();
 
     const allJobs: Job[] = [];
 
@@ -51,14 +55,14 @@ export async function GET() {
       }
     });
 
-    // Sort by dateUpdated in descending order (most recent first)
-    const sortedJobs = allJobs.sort((a, b) => {
-      const dateA = new Date(a.dateUpdated || 0).getTime();
-      const dateB = new Date(b.dateUpdated || 0).getTime();
-      return dateB - dateA;
-    });
+    // // Sort by dateUpdated in descending order (most recent first)
+    // const sortedJobs = allJobs.sort((a, b) => {
+    //   const dateA = new Date(a.dateUpdated || 0).getTime();
+    //   const dateB = new Date(b.dateUpdated || 0).getTime();
+    //   return dateB - dateA;
+    // });
 
-    return NextResponse.json(sortedJobs);
+    return NextResponse.json(allJobs);
   } catch (error) {
     console.error('Error getting jobs:', error);
     return NextResponse.json(
