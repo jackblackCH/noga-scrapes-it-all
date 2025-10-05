@@ -10,9 +10,10 @@ export interface Job {
   salary: string | null;
   type: string | null;
   description: string | null;
+  pageContent: string | null;
+  content: string | null;
   url: string;
   jobsUpdated: string | null;
-  dateUpdated: string | null;
   tags: string[] | null;
   slug: string;
 }

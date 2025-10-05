@@ -118,7 +118,7 @@ export default function ExistingJobsTable({ jobs: initialJobs }: { jobs: Job[] |
                 ))}
               </div>
             </TableCell>
-            <TableCell className="py-4 px-6 text-gray-600">{formatDate(job.dateUpdated)}</TableCell>
+            <TableCell className="py-4 px-6 text-gray-600">{formatDate(job.jobsUpdated)}</TableCell>
             <TableCell className="py-4 px-6 text-right">
               <Button
                 variant="outline"

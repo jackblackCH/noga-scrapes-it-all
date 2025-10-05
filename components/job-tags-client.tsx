@@ -66,7 +66,7 @@ export function JobTagsClient({ categories }: JobTagsClientProps) {
   };
 
   // Get all categories with wrapping
-  const displayCategories = [...categories, ...categories.slice(0, 3)];
+  const displayCategories = categories.length > 0 ? [...categories, ...categories.slice(0, 3)] : [];
 
   return (
     <div className="relative w-full overflow-hidden">

@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Airtable from 'airtable';
 import { Job } from '@/app/types/job';
+import { generateJobSlug } from '@/lib/utils';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET(
   request: NextRequest,
@@ -15,7 +19,6 @@ export async function GET(
     const airtable = new Airtable({ apiKey });
     const base = airtable.base('appQ3lzHc7ziRcWeq');
 
-    // Find the company record
     const records = await base('Companies')
       .select({
         filterByFormula: `{Slug} = '${params.companyId}'`,
@@ -29,13 +32,25 @@ export async function GET(
 
     const record = records[0];
     const jobs = JSON.parse((record.get('JobsFoundJSON') as string) || '[]') as Job[];
-    const job = jobs.find((j) => j.slug === params.slug);
+    const companyName = record.get('Company') as string;
+
+    const job = jobs.find((j) => generateJobSlug(j.title, companyName) === params.slug);
 
     if (!job) {
       return NextResponse.json({ error: 'Job not found' }, { status: 404 });
     }
 
-    return NextResponse.json(job);
+    const companyLogo = record.get('Logo') as Airtable.Attachment[];
+    const jobWithCompanyInfo = {
+      ...job,
+      company: companyName,
+      companyLogoUrl: companyLogo?.[0]?.url || '',
+      companySlug: record.get('Slug') as string,
+      slug: params.slug,
+      jobsUpdated: record.get('JobsUpdated') as string,
+    };
+
+    return NextResponse.json(jobWithCompanyInfo);
   } catch (error) {
     console.error('Error fetching job:', error);
     return NextResponse.json(

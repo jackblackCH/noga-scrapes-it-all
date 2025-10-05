@@ -5,9 +5,7 @@ import { Job } from '@/app/types/job';
 export async function getJobs(): Promise<Job[]> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/jobs`, {
-      next: {
-        revalidate: 5,
-      },
+      cache: 'no-store', // Let the API route handle caching
     });
 
     if (!response.ok) {
@@ -21,14 +19,12 @@ export async function getJobs(): Promise<Job[]> {
   }
 }
 
-export async function getJobBySlug(companyId: string): Promise<Job | null> {
+export async function getJobBySlug(companyId: string, slug: string): Promise<Job | null> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/companies/${companyId}/jobs}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/companies/${companyId}/jobs/${slug}`,
       {
-        next: {
-          revalidate: 60,
-        },
+        cache: 'no-store', // Always fetch fresh data for individual jobs
       }
     );
 

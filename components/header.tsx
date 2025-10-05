@@ -23,29 +23,8 @@ export default function Header() {
 
         {/* Desktop navigation */}
         <nav className="hidden text-xs lg:text-sm md:flex flex-1 items-center justify-center gap-4">
-          <Link
-            className="text-foreground/60 transition-colors hover:text-foreground"
-            href="/europe"
-          >
-            NOW IN EUROPE
-          </Link>
           <Link className="text-foreground/60 transition-colors hover:text-foreground" href="/jobs">
-            Search Jobs
-          </Link>
-          <Link className="text-foreground/60 transition-colors hover:text-foreground" href="/blog">
-            Resources
-          </Link>
-          <Link
-            className="text-foreground/60 transition-colors hover:text-foreground"
-            href="/podcast"
-          >
-            Podcast
-          </Link>
-          <Link
-            className="text-foreground/60 transition-colors hover:text-foreground"
-            href="/interview-prep"
-          >
-            Interview Prep
+            Search All Jobs
           </Link>
           <Link
             className="text-foreground/60 transition-colors hover:text-foreground"
@@ -73,38 +52,10 @@ export default function Header() {
           <nav className="flex flex-col space-y-4 text-xs">
             <Link
               className="text-foreground/60 transition-colors hover:text-foreground"
-              href="/europe"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              NOW IN EUROPE
-            </Link>
-            <Link
-              className="text-foreground/60 transition-colors hover:text-foreground"
               href="/jobs"
               onClick={() => setIsMenuOpen(false)}
             >
-              Search Jobs
-            </Link>
-            <Link
-              className="text-foreground/60 transition-colors hover:text-foreground"
-              href="/blog"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Resources
-            </Link>
-            <Link
-              className="text-foreground/60 transition-colors hover:text-foreground"
-              href="/podcast"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Podcast
-            </Link>
-            <Link
-              className="text-foreground/60 transition-colors hover:text-foreground"
-              href="/interview-prep"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Interview Prep
+              Search All Jobs
             </Link>
             <Link
               className="text-foreground/60 transition-colors hover:text-foreground"

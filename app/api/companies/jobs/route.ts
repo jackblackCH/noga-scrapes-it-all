@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import Airtable from 'airtable';
 import { Job } from '@/app/types/job';
-import slugify from 'slugify';
+import { generateJobSlug } from '@/lib/utils';
 
 interface AddJobRequest {
   companyId: string;
@@ -9,6 +9,8 @@ interface AddJobRequest {
   job: Job;
   dateUpdated: string;
 }
+
+export const revalidate = 10; // Cache for 10 seconds
 
 export async function GET() {
   try {
@@ -38,13 +40,19 @@ export async function GET() {
       if (jobsFoundJSON) {
         try {
           const jobs = JSON.parse(jobsFoundJSON.trim()) as Job[];
-          const jobsWithLogo = jobs.map((job) => ({
-            ...job,
-            company: record.get('Company') as string,
-            companyLogoUrl: companyLogo && companyLogo[0] ? companyLogo[0].url : '',
-            companySlug: companySlug,
-            dateUpdated: (record.get('JobsUpdated') as string) || null,
-          }));
+          const jobsWithLogo = jobs.map((job) => {
+            // Ensure the job has a valid slug
+            const slug = job.slug || generateJobSlug(job.title, record.get('Company') as string);
+
+            return {
+              ...job,
+              company: record.get('Company') as string,
+              companyLogoUrl: companyLogo && companyLogo[0] ? companyLogo[0].url : '',
+              companySlug: companySlug,
+              dateUpdated: record.get('JobsUpdated') as string,
+              slug: slug,
+            };
+          });
           allJobs.push(...jobsWithLogo);
         } catch (error) {
           console.error(
@@ -83,10 +91,7 @@ export async function POST(request: Request) {
     const { companyId, job, dateUpdated } = (await request.json()) as AddJobRequest;
 
     // Generate slug from title and company
-    const baseSlug = slugify(`${job.title}-${job.company}`, {
-      lower: true,
-      strict: true,
-    });
+    const baseSlug = generateJobSlug(job.title, job.company);
 
     // Add slug and companySlug to job object
     const jobWithSlug = {
@@ -117,10 +122,21 @@ export async function POST(request: Request) {
     const record = records[0];
     const existingJobs = JSON.parse((record.get('JobsFoundJSON') as string) || '[]') as Job[];
 
-    // Add the new job if it doesn't exist already (checking by URL)
-    const jobExists = existingJobs.some((existingJob) => existingJob.title === job.title);
-    if (!jobExists) {
+    // Update existing job or add new job
+    const existingJobIndex = existingJobs.findIndex(
+      (existingJob) => existingJob.title === job.title
+    );
+
+    if (existingJobIndex === -1) {
+      // Add new job
       existingJobs.push(jobWithSlug);
+    } else {
+      // Update existing job with new data and ensure it has a slug
+      existingJobs[existingJobIndex] = {
+        ...existingJobs[existingJobIndex],
+        ...jobWithSlug,
+        slug: existingJobs[existingJobIndex].slug || jobWithSlug.slug,
+      };
     }
 
     // Update the company record with the new jobs array
@@ -137,7 +153,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       jobsCount: existingJobs.length,
-      jobAdded: !jobExists,
+      jobAdded: existingJobIndex === -1,
     });
   } catch (error) {
     console.error('Error adding job:', error);
